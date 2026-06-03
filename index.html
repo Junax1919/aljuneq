@@ -45,14 +45,14 @@
     <style>
         /* Custom Premium Scrollbar */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
         }
         ::-webkit-scrollbar-track {
             background: #030305;
         }
         ::-webkit-scrollbar-thumb {
             background: #18181b;
-            border-radius: 3px;
+            border-radius: 2px;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #27272a;
@@ -215,7 +215,7 @@
             if (!target) return;
             
             // Adjust offsets based on floating sticky header dimensions
-            const headerOffset = 90; 
+            const headerOffset = window.innerWidth < 1024 ? 70 : 90; 
             const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
             const startPosition = window.pageYOffset;
             const distance = targetPosition - startPosition;
@@ -298,15 +298,23 @@
     <!-- Ambient Grain/Noise layer -->
     <div class="grain-overlay"></div>
 
+    <!-- ================= GLOBAL FULL-PAGE CINEMATIC BACKGROUND CANVAS ================= -->
+    <div class="fixed inset-0 z-0 overflow-hidden bg-zinc-950 pointer-events-none">
+        <!-- Ambient radial shadow vignette to pull lines into background depth -->
+        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/80 to-zinc-950/20 z-10"></div>
+        <div class="absolute inset-0 bg-radial-gradient(ellipse_at_center,_var(--tw-gradient-stops)) from-transparent via-zinc-950/50 to-zinc-950 z-10"></div>
+        <canvas id="hero-starfield" class="absolute inset-0 w-full h-full object-cover opacity-100 mix-blend-screen"></canvas>
+    </div>
+
     <!-- Glowing Background Orbs (Premium Cinematic Depth) -->
     <div class="fixed top-[-10%] left-[5%] w-[45vw] h-[45vw] bg-amber-500/5 rounded-full glow-orb"></div>
-    <div class="fixed bottom-[15%] right-[5%] w-[50vw] h-[50vw] bg-zinc-900/20 rounded-full glow-orb"></div>
+    <div class="fixed bottom-[15%] right-[5%] w-[50vw] h-[50vw] bg-zinc-900/10 rounded-full glow-orb"></div>
 
     <!-- ================= SECTION: FULL-WIDTH FLOATING NAVIGATION ================= -->
     <div class="fixed top-0 left-0 w-full z-50">
         <header 
-            class="w-full border-b border-zinc-900/40 bg-zinc-950/70 backdrop-blur-md px-6 md:px-12 py-5 flex items-center justify-between transition-all duration-500"
-            :class="scrolled ? 'border-amber-500/10 bg-zinc-950/95 py-4 shadow-xl shadow-black/40' : ''"
+            class="w-full border-b border-zinc-900/20 bg-zinc-950/60 backdrop-blur-md px-4 sm:px-6 md:px-12 py-4 sm:py-5 flex items-center justify-between transition-all duration-500"
+            :class="scrolled ? 'border-amber-500/10 bg-zinc-950/90 py-3 shadow-xl shadow-black/40' : ''"
         >
             <!-- Brand Logo -->
             <a @click.prevent="scrollTo('#')" href="#" class="group flex items-center gap-3">
@@ -315,13 +323,13 @@
                     <span class="w-3.5 h-3.5 bg-amber-500 rounded-full transition-transform duration-500 group-hover:rotate-180"></span>
                 </div>
                 <div class="flex flex-col">
-                    <span class="font-display font-black text-lg tracking-wider text-white">ALJUNE.Q</span>
-                    <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-[0.2em] -mt-1">PORTFOLIO</span>
+                    <span class="font-display font-black text-base sm:text-lg tracking-wider text-white">ALJUNE.Q</span>
+                    <span class="font-mono text-[8px] sm:text-[9px] text-zinc-500 uppercase tracking-[0.2em] -mt-1">PORTFOLIO</span>
                 </div>
             </a>
 
             <!-- Desktop Nav Links (Full width sticky structure) -->
-            <nav class="hidden lg:flex items-center gap-8 text-[10px] font-mono tracking-[0.2em] text-zinc-400 uppercase">
+            <nav class="hidden lg:flex items-center gap-6 xl:gap-8 text-[10px] font-mono tracking-[0.2em] text-zinc-400 uppercase">
                 <a @click.prevent="scrollTo('#showcase')" href="#showcase" class="hover:text-white transition-colors duration-300 hover-underline">01 / WORK</a>
                 <a @click.prevent="scrollTo('#about')" href="#about" class="hover:text-white transition-colors duration-300 hover-underline">02 / PROFILE</a>
                 <a @click.prevent="scrollTo('#services')" href="#services" class="hover:text-white transition-colors duration-300 hover-underline">03 / SERVICES</a>
@@ -329,23 +337,23 @@
             </nav>
 
             <!-- CTA Button -->
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3">
                 <a 
                     @click.prevent="scrollTo('#quote')"
                     href="#quote" 
-                    class="hidden sm:inline-flex items-center gap-2 border border-zinc-800 hover:border-amber-500/50 bg-zinc-900/40 px-5 py-2.5 rounded-full text-xs font-mono tracking-wider transition-all duration-300 hover:bg-zinc-900 text-zinc-300 hover:text-white"
+                    class="hidden sm:inline-flex items-center gap-2 border border-zinc-850 hover:border-amber-500/40 bg-zinc-900/30 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-mono tracking-wider transition-all duration-300 hover:bg-zinc-900 text-zinc-300 hover:text-white"
                 >
                     ESTIMATE BRIEF
-                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-amber-500"></i>
+                    <i data-lucide="arrow-up-right" class="w-3 h-3 text-amber-500"></i>
                 </a>
                 
                 <!-- Mobile Menu button -->
                 <button 
-                    @click="document.getElementById('mobile-menu').classList.toggle('hidden')"
-                    class="lg:hidden p-1.5 text-zinc-400 hover:text-white focus:outline-none"
+                    @click="document.getElementById('mobile-menu').classList.remove('hidden')"
+                    class="lg:hidden p-2 text-zinc-400 hover:text-white focus:outline-none rounded-lg hover:bg-zinc-900/40"
                     aria-label="Toggle menu"
                 >
-                    <i data-lucide="menu" class="w-6 h-6"></i>
+                    <i data-lucide="menu" class="w-5.5 h-5.5"></i>
                 </button>
             </div>
         </header>
@@ -355,11 +363,11 @@
     <div id="mobile-menu" class="hidden fixed inset-0 z-[100] bg-zinc-950/98 backdrop-blur-xl flex flex-col justify-center items-center p-6">
         <button 
             @click="document.getElementById('mobile-menu').classList.add('hidden')"
-            class="absolute top-6 right-6 p-2 text-zinc-400 hover:text-white"
+            class="absolute top-6 right-6 p-3 text-zinc-400 hover:text-white rounded-full bg-zinc-900/30"
         >
-            <i data-lucide="x" class="w-8 h-8"></i>
+            <i data-lucide="x" class="w-6 h-6"></i>
         </button>
-        <div class="flex flex-col gap-8 text-center text-xl font-display uppercase tracking-widest">
+        <div class="flex flex-col gap-6 text-center text-lg sm:text-xl font-display uppercase tracking-widest">
             <a @click="document.getElementById('mobile-menu').classList.add('hidden'); scrollTo('#showcase')" href="#showcase" class="hover:text-amber-500 transition-colors">01 / WORK</a>
             <a @click="document.getElementById('mobile-menu').classList.add('hidden'); scrollTo('#about')" href="#about" class="hover:text-amber-500 transition-colors">02 / PROFILE</a>
             <a @click="document.getElementById('mobile-menu').classList.add('hidden'); scrollTo('#services')" href="#services" class="hover:text-amber-500 transition-colors">03 / SERVICES</a>
@@ -371,77 +379,68 @@
     </div>
 
     <!-- ================= MAIN CINEMATIC ENTRY CONTENT CONTAINER ================= -->
-    <div class="cinematic-entry">
+    <div class="cinematic-entry relative z-10">
 
         <!-- ================= SECTION 1: HERO & ATMOSPHERE ================= -->
-        <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-16">
-            
-            <!-- High-Fidelity Cinematic Morphing Curve Lines Backdrop -->
-            <div class="absolute inset-0 z-0 overflow-hidden bg-zinc-950 pointer-events-none">
-                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/80 to-zinc-950/30 z-10"></div>
-                <div class="absolute inset-0 bg-radial-gradient(ellipse_at_center,_var(--tw-gradient-stops)) from-transparent via-zinc-950/65 to-zinc-950 z-10"></div>
-                
-                <canvas id="hero-starfield" class="absolute inset-0 w-full h-full object-cover opacity-90 mix-blend-screen"></canvas>
-            </div>
-
-            <div class="relative z-20 max-w-7xl mx-auto px-6 md:px-12 w-full flex flex-col justify-between min-h-[75vh]">
+        <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 sm:pt-32 pb-16 bg-transparent">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 w-full flex flex-col justify-between min-h-[75vh]">
                 
                 <!-- Ambient Mini Status Header -->
-                <div class="flex items-center gap-2 font-mono text-zinc-500 text-[10px] md:text-xs tracking-[0.25em] uppercase mb-12">
+                <div class="flex items-center gap-2 font-mono text-zinc-500 text-[10px] sm:text-xs tracking-[0.15em] sm:tracking-[0.25em] uppercase mb-8 sm:mb-12">
                     <span class="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse"></span>
-                    <span class="text-white font-medium">AVAILABLE FOR FREELANCE PROJECTS</span>
+                    <span class="text-white font-medium text-[9px] sm:text-xs">AVAILABLE FOR FREELANCE PROJECTS</span>
                     <span class="text-zinc-700">|</span>
-                    <span>GLOBAL WORKFLOW</span>
+                    <span class="hidden sm:inline">GLOBAL WORKFLOW</span>
                 </div>
 
                 <!-- Core Value Proposition & Bold Headline -->
                 <div class="max-w-5xl">
-                    <h1 class="font-display text-[10vw] sm:text-[8vw] md:text-[6.5vw] lg:text-[4.8vw] font-black leading-[0.9] tracking-tight uppercase text-white mb-8">
+                    <h1 class="font-display text-[9vw] sm:text-[7.5vw] md:text-[6.5vw] lg:text-[4.8vw] font-black leading-[0.95] tracking-tight uppercase text-white mb-6 sm:mb-8">
                         CREATIVE WEB & <span class="text-zinc-500 block sm:inline">UI/UX DESIGNER</span>
                     </h1>
                     
-                    <p class="font-sans text-base md:text-lg lg:text-xl text-zinc-400 font-light max-w-3xl leading-relaxed mb-12">
+                    <p class="font-sans text-sm sm:text-base md:text-lg lg:text-xl text-zinc-300 font-light max-w-3xl leading-relaxed mb-8 sm:mb-12">
                         I design modern websites and digital experiences that help businesses stand out, engage users, and drive results. Blending cinematic aesthetic layers with high-performance execution.
                     </p>
                 </div>
 
                 <!-- CTA Row & Kinetic Stats -->
-                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-12 pt-8 border-t border-zinc-900/80">
-                    <div class="flex flex-wrap items-center gap-4">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pt-6 sm:pt-8 border-t border-zinc-900/40">
+                    <div class="flex flex-wrap items-center gap-3 sm:gap-4">
                         <a 
                             @click.prevent="scrollTo('#showcase')"
                             href="#showcase" 
-                            class="group relative inline-flex items-center justify-center bg-white hover:bg-amber-500 text-zinc-950 font-mono text-xs uppercase font-bold tracking-widest px-8 py-3.5 rounded-full overflow-hidden transition-all duration-300 shadow-xl shadow-amber-500/5 hover:shadow-amber-500/10"
+                            class="group relative inline-flex items-center justify-center bg-white hover:bg-amber-500 text-zinc-950 font-mono text-[10px] sm:text-xs uppercase font-bold tracking-widest px-6 sm:px-8 py-3 sm:py-3.5 rounded-full overflow-hidden transition-all duration-355 shadow-xl shadow-amber-500/5 hover:shadow-amber-500/10"
                         >
-                            <span class="relative z-10 flex items-center gap-3">
+                            <span class="relative z-10 flex items-center gap-2">
                                 VIEW MY WORK
-                                <i data-lucide="arrow-down" class="w-4 h-4 transition-transform duration-300 group-hover:translate-y-1"></i>
+                                <i data-lucide="arrow-down" class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-y-1"></i>
                             </span>
                         </a>
                         
                         <a 
                             @click.prevent="scrollTo('#quote')"
                             href="#quote" 
-                            class="inline-flex items-center gap-3 text-zinc-400 hover:text-white text-xs font-mono uppercase tracking-wider py-3 px-4 hover:bg-zinc-900/50 rounded-lg transition-all duration-300"
+                            class="inline-flex items-center gap-2 text-zinc-400 hover:text-white text-[10px] sm:text-xs font-mono uppercase tracking-wider py-2.5 px-3 sm:px-4 hover:bg-zinc-900/50 rounded-lg transition-all duration-300"
                         >
                             REQUEST A QUOTE
-                            <i data-lucide="chevron-right" class="w-4 h-4 text-amber-500"></i>
+                            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-amber-500"></i>
                         </a>
                     </div>
 
                     <!-- Live Performance Metrics -->
-                    <div class="grid grid-cols-3 gap-6 sm:gap-12 text-left font-mono">
+                    <div class="grid grid-cols-3 gap-4 sm:gap-12 text-left font-mono">
                         <div>
-                            <div class="text-xl md:text-2xl font-bold text-white tracking-tight">8+</div>
-                            <div class="text-[9px] text-zinc-500 uppercase tracking-widest mt-1">Years Exp</div>
+                            <div class="text-lg sm:text-xl md:text-2xl font-bold text-white tracking-tight">8+</div>
+                            <div class="text-[8px] sm:text-[9px] text-zinc-500 uppercase tracking-widest mt-0.5">Years Exp</div>
                         </div>
                         <div>
-                            <div class="text-xl md:text-2xl font-bold text-white tracking-tight">100%</div>
-                            <div class="text-[9px] text-zinc-500 uppercase tracking-widest mt-1">Fluid Rate</div>
+                            <div class="text-lg sm:text-xl md:text-2xl font-bold text-white tracking-tight">100%</div>
+                            <div class="text-[8px] sm:text-[9px] text-zinc-500 uppercase tracking-widest mt-0.5">Fluid Rate</div>
                         </div>
                         <div>
-                            <div class="text-xl md:text-2xl font-bold text-white tracking-tight">GAS</div>
-                            <div class="text-[9px] text-zinc-500 uppercase tracking-widest mt-1">Sheets Ready</div>
+                            <div class="text-lg sm:text-xl md:text-2xl font-bold text-white tracking-tight">GAS</div>
+                            <div class="text-[8px] sm:text-[9px] text-zinc-500 uppercase tracking-widest mt-0.5">Sheets Ready</div>
                         </div>
                     </div>
                 </div>
@@ -449,9 +448,9 @@
             </div>
 
             <!-- Sleek Scroll Indicator -->
-            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none z-20">
-                <span class="font-mono text-[9px] text-zinc-600 tracking-[0.3em] uppercase">SCROLL TO ASCEND</span>
-                <div class="w-[1px] h-12 bg-gradient-to-b from-zinc-800 to-transparent relative overflow-hidden">
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 pointer-events-none z-20">
+                <span class="font-mono text-[8px] text-zinc-600 tracking-[0.3em] uppercase">SCROLL TO ASCEND</span>
+                <div class="w-[1px] h-8 sm:h-12 bg-gradient-to-b from-zinc-800 to-transparent relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-full h-1/2 bg-amber-500 animate-[bounce_2s_infinite]"></div>
                 </div>
             </div>
@@ -459,30 +458,30 @@
 
 
         <!-- ================= SECTION 2: PORTFOLIO SHOWCASE ================= -->
-        <section id="showcase" class="relative py-24 md:py-32 border-t border-zinc-900 bg-zinc-950/40">
-            <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <section id="showcase" class="relative py-16 sm:py-24 md:py-32 border-t border-zinc-900 bg-transparent backdrop-blur-[1px]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
                 
                 <!-- Section Header -->
-                <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-8 mb-16">
+                <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-6 sm:gap-8 mb-12 sm:mb-16">
                     <div>
-                        <div class="font-mono text-xs text-amber-500 tracking-[0.3em] uppercase mb-3">FEATURED PORTFOLIO</div>
-                        <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tight">
+                        <div class="font-mono text-xs text-amber-500 tracking-[0.3em] uppercase mb-2 sm:mb-3">FEATURED PORTFOLIO</div>
+                        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tight">
                             SELECTED PROJECTS
                         </h2>
-                        <p class="text-zinc-500 text-xs font-mono mt-2 uppercase tracking-wider">
+                        <p class="text-zinc-500 text-[10px] sm:text-xs font-mono mt-1 sm:mt-2 uppercase tracking-wider">
                             [ Connected architecture: Dynamic Google Sheets asset sync enabled ]
                         </p>
                     </div>
                     
                     <!-- Category Filtering Tags -->
-                    <div class="flex flex-wrap gap-2 font-mono text-[10px] sm:text-xs">
+                    <div class="flex flex-wrap gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-xs overflow-x-auto pb-2 scrollbar-none">
                         <template x-for="category in ['All', 'Web Design', 'UI/UX Design', 'Dashboard Design', 'Google Apps Script', 'Web Application', 'Branding']">
                             <button 
                                 @click="activeFilter = category"
-                                class="px-4 py-2 rounded-full border transition-all duration-300 whitespace-nowrap"
+                                class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border transition-all duration-300 whitespace-nowrap"
                                 :class="activeFilter === category 
                                     ? 'bg-amber-500 text-zinc-950 border-amber-500 font-bold' 
-                                    : 'bg-zinc-900/40 text-zinc-400 border-zinc-800 hover:text-white hover:border-zinc-700'"
+                                    : 'bg-zinc-900/40 text-zinc-400 border-zinc-850 hover:text-white hover:border-zinc-750'"
                                 x-text="category.toUpperCase()"
                             ></button>
                         </template>
@@ -490,14 +489,14 @@
                 </div>
 
                 <!-- Showcase Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 md:gap-8">
                     <template x-for="project in projects" :key="project.id">
                         <div 
                             x-show="activeFilter === 'All' || project.tags.includes(activeFilter)"
                             x-transition:enter="transition ease-out duration-400"
                             x-transition:enter-start="opacity-0 translate-y-8"
                             x-transition:enter-end="opacity-100 translate-y-0"
-                            class="group relative bg-zinc-900/10 rounded-2xl overflow-hidden border border-zinc-900/80 transition-all duration-400 hover:border-zinc-800 hover:shadow-2xl hover:shadow-amber-500/5 cursor-pointer"
+                            class="group relative bg-zinc-900/30 rounded-2xl overflow-hidden border border-zinc-900/80 transition-all duration-400 hover:border-zinc-800 hover:shadow-2xl hover:shadow-amber-500/5 cursor-pointer"
                             @click="currentProject = project"
                         >
                             <!-- Image Container with Cinematic Zooming Overlay -->
@@ -513,34 +512,34 @@
                                 >
                                 
                                 <!-- Static Floating Badge -->
-                                <div class="absolute top-4 right-4 z-20 bg-zinc-950/80 backdrop-blur-md px-3 py-1 rounded-md text-[10px] font-mono tracking-wider text-zinc-400 border border-zinc-800">
+                                <div class="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 bg-zinc-950/80 backdrop-blur-md px-2.5 py-1 rounded-md text-[9px] sm:text-[10px] font-mono tracking-wider text-zinc-400 border border-zinc-800">
                                     <span x-text="project.year"></span>
                                 </div>
 
                                 <!-- Visual Play/Details Hover Button -->
                                 <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-                                    <div class="w-12 h-12 bg-white text-zinc-950 rounded-full flex items-center justify-center shadow-lg transform scale-90 group-hover:scale-100 transition-transform duration-500 ease-out">
-                                        <i data-lucide="plus" class="w-5 h-5"></i>
+                                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white text-zinc-950 rounded-full flex items-center justify-center shadow-lg transform scale-90 group-hover:scale-100 transition-transform duration-300 ease-out">
+                                        <i data-lucide="plus" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Card Content Information -->
-                            <div class="p-6 relative z-20 bg-zinc-950/90 border-t border-zinc-900/60">
+                            <div class="p-5 sm:p-6 relative z-20 bg-zinc-950/90 border-t border-zinc-900/60">
                                 <!-- Tags Row -->
-                                <div class="flex items-center gap-1.5 mb-3 flex-wrap">
+                                <div class="flex items-center gap-1 sm:gap-1.5 mb-2.5 sm:mb-3 flex-wrap">
                                     <template x-for="tag in project.tags">
-                                        <span class="text-[9px] font-mono tracking-widest text-amber-500 uppercase bg-amber-500/5 px-2 py-0.5 rounded border border-amber-500/10" x-text="tag"></span>
+                                        <span class="text-[8px] sm:text-[9px] font-mono tracking-widest text-amber-500 uppercase bg-amber-500/5 px-2 py-0.5 rounded border border-amber-500/10" x-text="tag"></span>
                                     </template>
                                 </div>
                                 
-                                <h3 class="font-display text-lg font-bold text-white group-hover:text-amber-400 transition-colors duration-300" x-text="project.title"></h3>
-                                <p class="text-zinc-400 text-xs mt-2 line-clamp-2 leading-relaxed" x-text="project.description"></p>
+                                <h3 class="font-display text-base sm:text-lg font-bold text-white group-hover:text-amber-400 transition-colors duration-300" x-text="project.title"></h3>
+                                <p class="text-zinc-400 text-xs mt-1.5 sm:mt-2 line-clamp-2 leading-relaxed" x-text="project.description"></p>
 
                                 <!-- View Project Action Anchor -->
-                                <div class="mt-4 pt-4 border-t border-zinc-900/50 flex items-center justify-between text-[11px] font-mono tracking-wider uppercase text-zinc-500 group-hover:text-white transition-colors duration-300">
+                                <div class="mt-4 pt-3.5 border-t border-zinc-900/50 flex items-center justify-between text-[10px] sm:text-[11px] font-mono tracking-wider uppercase text-zinc-500 group-hover:text-white transition-colors duration-300">
                                     <span>VIEW PROJECT SPEC</span>
-                                    <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-600 group-hover:text-amber-500 transition-transform duration-300 group-hover:translate-x-1"></i>
+                                    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-zinc-600 group-hover:text-amber-500 transition-transform duration-300 group-hover:translate-x-1"></i>
                                 </div>
                             </div>
                         </div>
@@ -549,7 +548,7 @@
 
                 <!-- Case Study / Project Popup Modal -->
                 <template x-if="currentProject">
-                    <div class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 md:p-6 bg-zinc-950/95 backdrop-blur-xl">
+                    <div class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-4 md:p-6 bg-zinc-950/95 backdrop-blur-xl">
                         <div 
                             @click.away="currentProject = null" 
                             class="bg-zinc-900/85 border border-zinc-800 rounded-2xl max-w-4xl w-full overflow-hidden shadow-2xl shadow-black relative"
@@ -558,65 +557,65 @@
                             x-transition:enter-end="scale-100 opacity-100"
                         >
                             <!-- Banner image showcase -->
-                            <div class="relative h-64 md:h-80 w-full">
+                            <div class="relative h-48 sm:h-64 md:h-80 w-full">
                                 <img :src="currentProject.image" alt="" class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>
                                 
                                 <!-- Close button -->
                                 <button 
                                     @click="currentProject = null" 
-                                    class="absolute top-4 right-4 bg-zinc-950/80 hover:bg-amber-500 hover:text-zinc-950 text-white rounded-full p-2.5 transition-all duration-300 border border-zinc-800 focus:outline-none"
+                                    class="absolute top-3 right-3 sm:top-4 sm:right-4 bg-zinc-950/80 hover:bg-amber-500 hover:text-zinc-950 text-white rounded-full p-2 sm:p-2.5 transition-all duration-300 border border-zinc-800 focus:outline-none"
                                 >
-                                    <i data-lucide="x" class="w-5 h-5"></i>
+                                    <i data-lucide="x" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                                 </button>
                             </div>
 
                             <!-- Case content info -->
-                            <div class="p-6 md:p-10">
+                            <div class="p-5 sm:p-6 md:p-10">
                                 <!-- Category and designation -->
-                                <div class="flex flex-wrap gap-2 items-center mb-4">
-                                    <span class="text-xs font-mono tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded" x-text="currentProject.category"></span>
-                                    <span class="text-zinc-500 text-sm font-mono">// CASE METRICS</span>
+                                <div class="flex flex-wrap gap-1.5 sm:gap-2 items-center mb-3 sm:mb-4">
+                                    <span class="text-[10px] sm:text-xs font-mono tracking-widest text-amber-500 bg-amber-500/10 px-2.5 py-0.5 sm:py-1 rounded" x-text="currentProject.category"></span>
+                                    <span class="text-zinc-500 text-xs sm:text-sm font-mono">// CASE METRICS</span>
                                 </div>
 
-                                <h3 class="text-3xl md:text-4xl font-display font-black text-white uppercase tracking-tight mb-4" x-text="currentProject.title"></h3>
+                                <h3 class="text-xl sm:text-2xl md:text-4xl font-display font-black text-white uppercase tracking-tight mb-3 sm:mb-4" x-text="currentProject.title"></h3>
                                 
-                                <p class="text-zinc-300 text-base md:text-lg font-light leading-relaxed mb-8" x-text="currentProject.description"></p>
+                                <p class="text-zinc-300 text-xs sm:text-sm md:text-lg font-light leading-relaxed mb-6 sm:mb-8" x-text="currentProject.description"></p>
 
                                 <!-- Detailed breakdown parameters -->
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-zinc-800/80">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 pt-6 sm:pt-8 border-t border-zinc-800/80">
                                     <div>
-                                        <h4 class="font-mono text-xs tracking-wider uppercase text-zinc-500 mb-2">My Direct Contribution</h4>
-                                        <p class="text-zinc-300 text-sm leading-relaxed" x-text="currentProject.role"></p>
+                                        <h4 class="font-mono text-[10px] sm:text-xs tracking-wider uppercase text-zinc-500 mb-1 sm:mb-2">My Direct Contribution</h4>
+                                        <p class="text-zinc-300 text-xs sm:text-sm leading-relaxed" x-text="currentProject.role"></p>
                                     </div>
                                     <div>
-                                        <h4 class="font-mono text-xs tracking-wider uppercase text-zinc-500 mb-2">Quantified Outcome</h4>
-                                        <p class="text-zinc-300 text-sm leading-relaxed" x-text="currentProject.outcome"></p>
+                                        <h4 class="font-mono text-[10px] sm:text-xs tracking-wider uppercase text-zinc-500 mb-1 sm:mb-2">Quantified Outcome</h4>
+                                        <p class="text-zinc-300 text-xs sm:text-sm leading-relaxed" x-text="currentProject.outcome"></p>
                                     </div>
                                 </div>
 
                                 <!-- Technical metadata parameters -->
-                                <div class="mt-10 pt-6 border-t border-zinc-800/60 flex flex-wrap gap-4 items-center justify-between">
-                                    <div class="flex items-center gap-3">
-                                        <span class="text-xs font-mono text-zinc-500">Integration Platform:</span>
-                                        <div class="flex gap-2">
-                                            <span class="text-[10px] font-mono text-zinc-300 bg-zinc-950 border border-zinc-800 px-2 py-1 rounded">JavaScript</span>
-                                            <span class="text-[10px] font-mono text-zinc-300 bg-zinc-950 border border-zinc-800 px-2 py-1 rounded">REST API</span>
-                                            <span class="text-[10px] font-mono text-zinc-300 bg-zinc-950 border border-zinc-800 px-2 py-1 rounded">GAS Sync ready</span>
+                                <div class="mt-8 sm:mt-10 pt-5 sm:pt-6 border-t border-zinc-800/60 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span class="text-[10px] sm:text-xs font-mono text-zinc-500">Platform:</span>
+                                        <div class="flex flex-wrap gap-1.5">
+                                            <span class="text-[8px] sm:text-[10px] font-mono text-zinc-300 bg-zinc-950 border border-zinc-800 px-2 py-0.5 rounded">JavaScript</span>
+                                            <span class="text-[8px] sm:text-[10px] font-mono text-zinc-300 bg-zinc-950 border border-zinc-800 px-2 py-0.5 rounded">REST API</span>
+                                            <span class="text-[8px] sm:text-[10px] font-mono text-zinc-300 bg-zinc-950 border border-zinc-800 px-2 py-0.5 rounded">GAS Sync</span>
                                         </div>
                                     </div>
 
-                                    <div class="flex gap-4">
+                                    <div class="flex gap-2 sm:gap-3 w-full md:w-auto">
                                         <button 
                                             @click="currentProject = null"
-                                            class="bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs uppercase tracking-wider px-5 py-3 rounded-full transition-all duration-300"
+                                            class="flex-1 md:flex-none bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-[10px] sm:text-xs uppercase tracking-wider px-4 py-2.5 sm:py-3 rounded-full transition-all duration-300"
                                         >
-                                            Close Details
+                                            Close
                                         </button>
                                         <a 
                                             @click.prevent="currentProject = null; scrollTo('#quote')"
                                             href="#quote"
-                                            class="bg-amber-500 hover:bg-amber-600 text-zinc-950 font-mono text-xs uppercase font-bold tracking-wider px-5 py-3 rounded-full transition-all duration-300"
+                                            class="flex-1 md:flex-none text-center bg-amber-500 hover:bg-amber-600 text-zinc-950 font-mono text-[10px] sm:text-xs uppercase font-bold tracking-wider px-4 py-2.5 sm:py-3 rounded-full transition-all duration-300"
                                         >
                                             Inquire Similar
                                         </a>
@@ -632,24 +631,24 @@
 
 
         <!-- ================= SECTION 3: ABOUT ME & EXPERIENCE ================= -->
-        <section id="about" class="relative py-24 md:py-32 bg-zinc-950">
-            <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <section id="about" class="relative py-16 sm:py-24 md:py-32 bg-transparent backdrop-blur-[1px]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
                 
                 <!-- Dual-Pane Split Layout Grid -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-24 items-start">
                     
                     <!-- Left Pane: Personal Bio and Vision -->
-                    <div class="space-y-8">
+                    <div class="space-y-6 sm:space-y-8">
                         <div class="font-mono text-xs text-amber-500 tracking-[0.3em] uppercase">ABOUT THE DESIGNER</div>
                         
-                        <h3 class="font-display text-4xl md:text-5xl font-black text-white uppercase tracking-tight leading-none">
+                        <h3 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tight leading-none">
                             Hey, I'm Aljune Quiñones —
                         </h3>
-                        <h4 class="text-xl md:text-2xl text-zinc-300 font-medium leading-normal">
+                        <h4 class="text-lg sm:text-xl md:text-2xl text-zinc-300 font-medium leading-normal">
                             A creative Web and UI/UX Designer passionate about turning complex ideas into beautiful, intuitive digital products.
                         </h4>
                         
-                        <div class="space-y-6 text-zinc-400 font-light leading-relaxed text-base md:text-lg">
+                        <div class="space-y-4 sm:space-y-6 text-zinc-400 font-light leading-relaxed text-sm sm:text-base md:text-lg">
                             <p>
                                 With over <strong class="text-amber-500 font-medium">8 years of industry experience</strong>, I've helped startups, agencies, and companies craft interfaces that users genuinely love and find instantly natural to navigate.
                             </p>
@@ -659,48 +658,48 @@
                         </div>
 
                         <!-- Highlight Badges Grid -->
-                        <div class="grid grid-cols-2 gap-4 pt-6">
-                            <div class="p-4 rounded-xl bg-zinc-900/10 border border-zinc-900 flex items-center gap-3 hover:border-zinc-800 transition-colors">
-                                <i data-lucide="award" class="w-5 h-5 text-amber-500 shrink-0"></i>
-                                <span class="text-xs font-mono text-zinc-300 uppercase">8+ Years Experience</span>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-4 sm:pt-6">
+                            <div class="p-3 sm:p-4 rounded-xl bg-zinc-900/20 border border-zinc-900 flex items-center gap-3 hover:border-zinc-800 transition-colors backdrop-blur-[2px]">
+                                <i data-lucide="award" class="w-4.5 h-4.5 text-amber-500 shrink-0"></i>
+                                <span class="text-[10px] sm:text-xs font-mono text-zinc-300 uppercase tracking-wider">8+ Years Experience</span>
                             </div>
-                            <div class="p-4 rounded-xl bg-zinc-900/10 border border-zinc-900 flex items-center gap-3 hover:border-zinc-800 transition-colors">
-                                <i data-lucide="layout" class="w-5 h-5 text-amber-500 shrink-0"></i>
-                                <span class="text-xs font-mono text-zinc-300 uppercase">Web Specialist</span>
+                            <div class="p-3 sm:p-4 rounded-xl bg-zinc-900/20 border border-zinc-900 flex items-center gap-3 hover:border-zinc-800 transition-colors backdrop-blur-[2px]">
+                                <i data-lucide="layout" class="w-4.5 h-4.5 text-amber-500 shrink-0"></i>
+                                <span class="text-[10px] sm:text-xs font-mono text-zinc-300 uppercase tracking-wider">Web Specialist</span>
                             </div>
-                            <div class="p-4 rounded-xl bg-zinc-900/10 border border-zinc-900 flex items-center gap-3 hover:border-zinc-800 transition-colors">
-                                <i data-lucide="fingerprint" class="w-5 h-5 text-amber-500 shrink-0"></i>
-                                <span class="text-xs font-mono text-zinc-300 uppercase">UI/UX Expert</span>
+                            <div class="p-3 sm:p-4 rounded-xl bg-zinc-900/20 border border-zinc-900 flex items-center gap-3 hover:border-zinc-800 transition-colors backdrop-blur-[2px]">
+                                <i data-lucide="fingerprint" class="w-4.5 h-4.5 text-amber-500 shrink-0"></i>
+                                <span class="text-[10px] sm:text-xs font-mono text-zinc-300 uppercase tracking-wider">UI/UX Expert</span>
                             </div>
-                            <div class="p-4 rounded-xl bg-zinc-900/10 border border-zinc-900 flex items-center gap-3 hover:border-zinc-800 transition-colors">
-                                <i data-lucide="file-json" class="w-5 h-5 text-amber-500 shrink-0"></i>
-                                <span class="text-xs font-mono text-zinc-300 uppercase">Apps Script Dev</span>
+                            <div class="p-3 sm:p-4 rounded-xl bg-zinc-900/20 border border-zinc-900 flex items-center gap-3 hover:border-zinc-800 transition-colors backdrop-blur-[2px]">
+                                <i data-lucide="file-json" class="w-4.5 h-4.5 text-amber-500 shrink-0"></i>
+                                <span class="text-[10px] sm:text-xs font-mono text-zinc-300 uppercase tracking-wider">Apps Script Dev</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Right Pane: Timeline Workflow -->
-                    <div class="space-y-12 lg:pl-6" x-data="{ activeStep: 1 }">
+                    <div class="space-y-8 sm:space-y-12 lg:pl-6" x-data="{ activeStep: 1 }">
                         <div>
-                            <div class="font-mono text-xs text-zinc-500 tracking-[0.3em] uppercase mb-3">MY PRODUCTION WORKFLOW</div>
-                            <h3 class="font-display text-3xl font-bold text-white uppercase tracking-tight">THE PATHWAY TO EXCELLENCE</h3>
+                            <div class="font-mono text-xs text-zinc-500 tracking-[0.3em] uppercase mb-2 sm:mb-3">MY PRODUCTION WORKFLOW</div>
+                            <h3 class="font-display text-2xl sm:text-3xl font-bold text-white uppercase tracking-tight">THE PATHWAY TO EXCELLENCE</h3>
                         </div>
 
                         <!-- Step-by-Step Vertical Progression -->
-                        <div class="space-y-3">
+                        <div class="space-y-2.5 sm:space-y-3">
                             
                             <!-- Step 1 -->
                             <div 
                                 @mouseenter="activeStep = 1"
-                                class="p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
-                                :class="activeStep === 1 ? 'bg-zinc-900/50 border-amber-500/50 shadow-lg' : 'bg-zinc-900/10 border-zinc-900 hover:border-zinc-800'"
+                                class="p-3.5 sm:p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
+                                :class="activeStep === 1 ? 'bg-zinc-900/60 border-amber-500/50 shadow-lg' : 'bg-zinc-900/20 border-zinc-900 hover:border-zinc-800'"
                             >
                                 <div class="flex items-start justify-between">
-                                    <div class="flex gap-4">
-                                        <span class="font-mono text-sm text-amber-500 font-bold">01 /</span>
+                                    <div class="flex gap-3 sm:gap-4">
+                                        <span class="font-mono text-xs sm:text-sm text-amber-500 font-bold">01 /</span>
                                         <div>
-                                            <h4 class="font-display text-base font-bold text-white uppercase tracking-tight">Discovery & Strategy</h4>
-                                            <p class="text-zinc-400 text-xs mt-0.5">Immersing deeply into business goals, functional targets, and project blueprints.</p>
+                                            <h4 class="font-display text-sm sm:text-base font-bold text-white uppercase tracking-tight">Discovery & Strategy</h4>
+                                            <p class="text-zinc-400 text-[11px] sm:text-xs mt-0.5">Immersing deeply into business goals, functional targets, and blueprints.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -709,15 +708,15 @@
                             <!-- Step 2 -->
                             <div 
                                 @mouseenter="activeStep = 2"
-                                class="p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
-                                :class="activeStep === 2 ? 'bg-zinc-900/50 border-amber-500/50 shadow-lg' : 'bg-zinc-900/10 border-zinc-900 hover:border-zinc-800'"
+                                class="p-3.5 sm:p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
+                                :class="activeStep === 2 ? 'bg-zinc-900/60 border-amber-500/50 shadow-lg' : 'bg-zinc-900/20 border-zinc-900 hover:border-zinc-800'"
                             >
                                 <div class="flex items-start justify-between">
-                                    <div class="flex gap-4">
-                                        <span class="font-mono text-sm text-amber-500 font-bold">02 /</span>
+                                    <div class="flex gap-3 sm:gap-4">
+                                        <span class="font-mono text-xs sm:text-sm text-amber-500 font-bold">02 /</span>
                                         <div>
-                                            <h4 class="font-display text-base font-bold text-white uppercase tracking-tight">Research & Planning</h4>
-                                            <p class="text-zinc-400 text-xs mt-0.5">Analyzing competitive benchmarks, industry trends, and strategic architecture mapping.</p>
+                                            <h4 class="font-display text-sm sm:text-base font-bold text-white uppercase tracking-tight">Research & Planning</h4>
+                                            <p class="text-zinc-400 text-[11px] sm:text-xs mt-0.5">Analyzing competitive benchmarks, industry trends, and strategic mapping.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -726,15 +725,15 @@
                             <!-- Step 3 -->
                             <div 
                                 @mouseenter="activeStep = 3"
-                                class="p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
-                                :class="activeStep === 3 ? 'bg-zinc-900/50 border-amber-500/50 shadow-lg' : 'bg-zinc-900/10 border-zinc-900 hover:border-zinc-800'"
+                                class="p-3.5 sm:p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
+                                :class="activeStep === 3 ? 'bg-zinc-900/60 border-amber-500/50 shadow-lg' : 'bg-zinc-900/20 border-zinc-900 hover:border-zinc-800'"
                             >
                                 <div class="flex items-start justify-between">
-                                    <div class="flex gap-4">
-                                        <span class="font-mono text-sm text-amber-500 font-bold">03 /</span>
+                                    <div class="flex gap-3 sm:gap-4">
+                                        <span class="font-mono text-xs sm:text-sm text-amber-500 font-bold">03 /</span>
                                         <div>
-                                            <h4 class="font-display text-base font-bold text-white uppercase tracking-tight">Wireframing & UX Design</h4>
-                                            <p class="text-zinc-400 text-xs mt-0.5">Plotting user journeys and interaction nodes prior to visual styling applications.</p>
+                                            <h4 class="font-display text-sm sm:text-base font-bold text-white uppercase tracking-tight">Wireframing & UX Design</h4>
+                                            <p class="text-zinc-400 text-[11px] sm:text-xs mt-0.5">Plotting user journeys and interaction nodes prior to visual styling.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -743,15 +742,15 @@
                             <!-- Step 4 -->
                             <div 
                                 @mouseenter="activeStep = 4"
-                                class="p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
-                                :class="activeStep === 4 ? 'bg-zinc-900/50 border-amber-500/50 shadow-lg' : 'bg-zinc-900/10 border-zinc-900 hover:border-zinc-800'"
+                                class="p-3.5 sm:p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
+                                :class="activeStep === 4 ? 'bg-zinc-900/60 border-amber-500/50 shadow-lg' : 'bg-zinc-900/20 border-zinc-900 hover:border-zinc-800'"
                             >
                                 <div class="flex items-start justify-between">
-                                    <div class="flex gap-4">
-                                        <span class="font-mono text-sm text-amber-500 font-bold">04 /</span>
+                                    <div class="flex gap-3 sm:gap-4">
+                                        <span class="font-mono text-xs sm:text-sm text-amber-500 font-bold">04 /</span>
                                         <div>
-                                            <h4 class="font-display text-base font-bold text-white uppercase tracking-tight">UI Design & Prototyping</h4>
-                                            <p class="text-zinc-400 text-xs mt-0.5">Forging detailed high-fidelity layouts, micro-animations, and complete interactive blueprints.</p>
+                                            <h4 class="font-display text-sm sm:text-base font-bold text-white uppercase tracking-tight">UI Design & Prototyping</h4>
+                                            <p class="text-zinc-400 text-[11px] sm:text-xs mt-0.5">Forging detailed high-fidelity layouts and complete interactive blueprints.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -760,15 +759,15 @@
                             <!-- Step 5 -->
                             <div 
                                 @mouseenter="activeStep = 5"
-                                class="p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
-                                :class="activeStep === 5 ? 'bg-zinc-900/50 border-amber-500/50 shadow-lg' : 'bg-zinc-900/10 border-zinc-900 hover:border-zinc-800'"
+                                class="p-3.5 sm:p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
+                                :class="activeStep === 5 ? 'bg-zinc-900/60 border-amber-500/50 shadow-lg' : 'bg-zinc-900/20 border-zinc-900 hover:border-zinc-800'"
                             >
                                 <div class="flex items-start justify-between">
-                                    <div class="flex gap-4">
-                                        <span class="font-mono text-sm text-amber-500 font-bold">05 /</span>
+                                    <div class="flex gap-3 sm:gap-4">
+                                        <span class="font-mono text-xs sm:text-sm text-amber-500 font-bold">05 /</span>
                                         <div>
-                                            <h4 class="font-display text-base font-bold text-white uppercase tracking-tight">Development & Testing</h4>
-                                            <p class="text-zinc-400 text-xs mt-0.5">Writing organized, responsive web code alongside Google Apps Script integration verification.</p>
+                                            <h4 class="font-display text-sm sm:text-base font-bold text-white uppercase tracking-tight">Development & Testing</h4>
+                                            <p class="text-zinc-400 text-[11px] sm:text-xs mt-0.5">Writing responsive web code alongside Google Apps Script verification.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -777,15 +776,15 @@
                             <!-- Step 6 -->
                             <div 
                                 @mouseenter="activeStep = 6"
-                                class="p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
-                                :class="activeStep === 6 ? 'bg-zinc-900/50 border-amber-500/50 shadow-lg' : 'bg-zinc-900/10 border-zinc-900 hover:border-zinc-800'"
+                                class="p-3.5 sm:p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
+                                :class="activeStep === 6 ? 'bg-zinc-900/60 border-amber-500/50 shadow-lg' : 'bg-zinc-900/20 border-zinc-900 hover:border-zinc-800'"
                             >
                                 <div class="flex items-start justify-between">
-                                    <div class="flex gap-4">
-                                        <span class="font-mono text-sm text-amber-500 font-bold">06 /</span>
+                                    <div class="flex gap-3 sm:gap-4">
+                                        <span class="font-mono text-xs sm:text-sm text-amber-500 font-bold">06 /</span>
                                         <div>
-                                            <h4 class="font-display text-base font-bold text-white uppercase tracking-tight">Launch & Optimization</h4>
-                                            <p class="text-zinc-400 text-xs mt-0.5">Deploying to secure staging servers, verifying performance speed scores, and launching.</p>
+                                            <h4 class="font-display text-sm sm:text-base font-bold text-white uppercase tracking-tight">Launch & Optimization</h4>
+                                            <p class="text-zinc-400 text-[11px] sm:text-xs mt-0.5">Deploying to staging servers, verifying performance speed scores, and launching.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -801,86 +800,87 @@
 
 
         <!-- ================= SECTION 4: SERVICES ================= -->
-        <section id="services" class="relative py-24 md:py-32 bg-zinc-950/40 border-t border-zinc-900">
-            <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <section id="services" class="relative py-16 sm:py-24 md:py-32 bg-transparent border-t border-zinc-900 backdrop-blur-[1px]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
                 
-                <div class="mb-16 text-center md:text-left">
-                    <span class="font-mono text-xs text-amber-500 tracking-[0.3em] uppercase block mb-3">WHAT I DELIVER</span>
-                    <h3 class="font-display text-4xl md:text-5xl font-black text-white uppercase tracking-tight">PROFESSIONAL SERVICE DESIGN</h3>
-                    <p class="text-zinc-400 mt-2 text-sm max-w-xl font-light">Custom digital strategies focused on elite performance, accessibility, and clean interface structures.</p>
+                <!-- Header -->
+                <div class="mb-12 sm:mb-16 text-center md:text-left">
+                    <span class="font-mono text-xs text-amber-500 tracking-[0.3em] uppercase block mb-2.5 sm:mb-3">WHAT I DELIVER</span>
+                    <h3 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tight">PROFESSIONAL SERVICE DESIGN</h3>
+                    <p class="text-zinc-400 mt-2 text-xs sm:text-sm max-w-xl font-light">Custom digital strategies focused on elite performance, accessibility, and clean interface structures.</p>
                 </div>
 
                 <!-- Services Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                     
                     <!-- Service 1 -->
-                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
-                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i data-lucide="chrome" class="w-6 h-6"></i>
+                    <div class="p-6 sm:p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group backdrop-blur-[2px]">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-5 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="chrome" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                         </div>
-                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">Website Design</h4>
+                        <h4 class="font-display text-base sm:text-lg font-bold text-white uppercase mb-1.5 sm:mb-2">Website Design</h4>
                         <p class="text-zinc-400 text-xs leading-relaxed">Elegant, professional custom websites optimized specifically for maximum speed, clear communication, and conversion results.</p>
                     </div>
 
                     <!-- Service 2 -->
-                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
-                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i data-lucide="smartphone" class="w-6 h-6"></i>
+                    <div class="p-6 sm:p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group backdrop-blur-[2px]">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-5 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="smartphone" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                         </div>
-                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">UI/UX Design</h4>
+                        <h4 class="font-display text-base sm:text-lg font-bold text-white uppercase mb-1.5 sm:mb-2">UI/UX Design</h4>
                         <p class="text-zinc-400 text-xs leading-relaxed">Deeply strategic user journeys mapped via high fidelity wireframes and user research targeting effortless usability.</p>
                     </div>
 
                     <!-- Service 3 -->
-                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
-                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i data-lucide="target" class="w-6 h-6"></i>
+                    <div class="p-6 sm:p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group backdrop-blur-[2px]">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-5 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="target" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                         </div>
-                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">Landing Page Design</h4>
+                        <h4 class="font-display text-base sm:text-lg font-bold text-white uppercase mb-1.5 sm:mb-2">Landing Page Design</h4>
                         <p class="text-zinc-400 text-xs leading-relaxed">High-impact single scroll experiences built to grab instant user interest and generate direct action funnels.</p>
                     </div>
 
                     <!-- Service 4 -->
-                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
-                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i data-lucide="layout-grid" class="w-6 h-6"></i>
+                    <div class="p-6 sm:p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group backdrop-blur-[2px]">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-5 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="layout-grid" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                         </div>
-                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">Dashboard Design</h4>
+                        <h4 class="font-display text-base sm:text-lg font-bold text-white uppercase mb-1.5 sm:mb-2">Dashboard Design</h4>
                         <p class="text-zinc-400 text-xs leading-relaxed">Organized multi-view operations consoles displaying critical complex data insights cleanly on dark modes.</p>
                     </div>
 
                     <!-- Service 5 -->
-                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
-                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i data-lucide="database" class="w-6 h-6"></i>
+                    <div class="p-6 sm:p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group backdrop-blur-[2px]">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-5 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="database" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                         </div>
-                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">Apps Script Web Apps</h4>
+                        <h4 class="font-display text-base sm:text-lg font-bold text-white uppercase mb-1.5 sm:mb-2">Apps Script Web Apps</h4>
                         <p class="text-zinc-400 text-xs leading-relaxed">Custom light applications powered directly inside the Google Workspace ecosystem for seamless workflows.</p>
                     </div>
 
                     <!-- Service 6 -->
-                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
-                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+                    <div class="p-6 sm:p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group backdrop-blur-[2px]">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-5 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="refresh-cw" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                         </div>
-                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">Website Redesign</h4>
+                        <h4 class="font-display text-base sm:text-lg font-bold text-white uppercase mb-1.5 sm:mb-2">Website Redesign</h4>
                         <p class="text-zinc-400 text-xs leading-relaxed">Transform outdated existing platforms into high performance, modern, visual showpieces aligned with contemporary standards.</p>
                     </div>
 
                     <!-- Service 7 -->
-                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
-                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i data-lucide="component" class="w-6 h-6"></i>
+                    <div class="p-6 sm:p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group backdrop-blur-[2px]">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-5 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="component" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                         </div>
-                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">Design Systems</h4>
+                        <h4 class="font-display text-base sm:text-lg font-bold text-white uppercase mb-1.5 sm:mb-2">Design Systems</h4>
                         <p class="text-zinc-400 text-xs leading-relaxed">Comprehensive interactive component sets ensuring perfect layout uniformity across entire scaling team departments.</p>
                     </div>
 
                     <!-- Service 8 (Value proposition highlight) -->
-                    <div class="p-8 rounded-2xl bg-amber-500/5 border border-amber-500/20 flex flex-col justify-between">
+                    <div class="p-6 sm:p-8 rounded-2xl bg-amber-500/5 border border-amber-500/20 flex flex-col justify-between backdrop-blur-[2px] min-h-[220px]">
                         <div>
-                            <span class="font-mono text-[9px] text-amber-500 tracking-widest uppercase">PHILIPPINES INITIATIVE</span>
-                            <h4 class="font-display text-base font-bold text-white uppercase mt-2">NEED CUSTOM INTEGRATION?</h4>
+                            <span class="font-mono text-[8px] sm:text-[9px] text-amber-500 tracking-widest uppercase">PHILIPPINES INITIATIVE</span>
+                            <h4 class="font-display text-sm sm:text-base font-bold text-white uppercase mt-2">NEED CUSTOM INTEGRATION?</h4>
                             <p class="text-zinc-400 text-xs mt-1">Let's build reliable cloud data connections using automated spreadsheet workflows.</p>
                         </div>
                         <a @click.prevent="scrollTo('#quote')" href="#quote" class="mt-4 inline-flex items-center gap-2 text-xs text-white font-mono uppercase hover:text-amber-500 transition-colors">
@@ -895,31 +895,31 @@
 
 
         <!-- ================= SECTION 5: REQUEST A QUOTE (CONTACT) ================= -->
-        <section id="quote" class="relative py-24 md:py-32 bg-zinc-950 border-t border-zinc-900">
-            <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <section id="quote" class="relative py-16 sm:py-24 md:py-32 bg-transparent border-t border-zinc-900 backdrop-blur-[1px]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
                 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-16 items-start">
                     
                     <!-- Left Side: Brand Inquiries & Instructions -->
-                    <div class="lg:col-span-5 space-y-8">
+                    <div class="lg:col-span-5 space-y-6 sm:space-y-8">
                         <div>
-                            <div class="font-mono text-xs text-amber-500 tracking-[0.3em] uppercase mb-3">SECURE YOUR ESTIMATE</div>
-                            <h3 class="font-display text-4xl md:text-5xl font-black text-white uppercase tracking-tight leading-none">
+                            <div class="font-mono text-xs text-amber-500 tracking-[0.3em] uppercase mb-2 sm:mb-3">SECURE YOUR ESTIMATE</div>
+                            <h3 class="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tight leading-none">
                                 REQUEST A DETAILED QUOTE.
                             </h3>
                         </div>
 
-                        <p class="text-zinc-400 text-base md:text-lg leading-relaxed font-light">
+                        <p class="text-zinc-400 text-sm sm:text-base md:text-lg leading-relaxed font-light">
                             Every submission initiates a complete review of your functional needs. Our form setup is fully integrated to record automatically inside a centralized spreadsheet for instantaneous review.
                         </p>
 
                         <!-- Apps Script Custom Setup Hint for Aljune -->
-                        <div class="p-5 rounded-xl bg-zinc-900/40 border border-zinc-900 text-xs space-y-3">
+                        <div class="p-4 sm:p-5 rounded-xl bg-zinc-900/40 border border-zinc-900 text-xs space-y-3 backdrop-blur-[2px]">
                             <div class="flex items-center gap-2 text-amber-400 font-mono">
                                 <i data-lucide="terminal" class="w-4 h-4"></i>
                                 <span>APPS SCRIPT READY</span>
                             </div>
-                            <p class="text-zinc-400 leading-relaxed">
+                            <p class="text-zinc-400 leading-relaxed text-[11px] sm:text-xs">
                                 Aljune: Easily receive submissions inside your custom Google Sheets! Simply paste your deployed Web App URL in the input container below to link the backend live.
                             </p>
                             <input 
@@ -932,14 +932,14 @@
                     </div>
 
                     <!-- Right Side: Clean Form Module -->
-                    <div class="lg:col-span-7 bg-zinc-900/30 border border-zinc-900 p-8 md:p-12 rounded-2xl relative overflow-hidden">
+                    <div class="lg:col-span-7 bg-zinc-900/30 border border-zinc-900 p-6 sm:p-8 md:p-12 rounded-2xl relative overflow-hidden backdrop-blur-[2px]">
                         <div class="absolute -top-12 -right-12 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
                         <!-- Quote Submission form -->
                         <div x-show="!formSubmitted" class="space-y-6">
-                            <h4 class="font-display text-xl font-bold text-white uppercase tracking-tight">PROJECT REQUISITION FORM</h4>
+                            <h4 class="font-display text-lg sm:text-xl font-bold text-white uppercase tracking-tight">PROJECT REQUISITION FORM</h4>
                             
-                            <form @submit.prevent="submitQuoteForm()" class="space-y-8">
+                            <form @submit.prevent="submitQuoteForm()" class="space-y-6 sm:space-y-8">
                                 <!-- Full Name -->
                                 <div class="relative z-0 w-full group">
                                     <input 
@@ -947,7 +947,7 @@
                                         name="full_name" 
                                         id="full_name" 
                                         x-model="contactName"
-                                        class="block py-3 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-zinc-800 appearance-none focus:outline-none focus:ring-0 focus:border-amber-500 peer" 
+                                        class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-zinc-800 appearance-none focus:outline-none focus:ring-0 focus:border-amber-500 peer" 
                                         placeholder=" " 
                                         required 
                                     />
@@ -966,7 +966,7 @@
                                         name="email_address" 
                                         id="email_address" 
                                         x-model="contactEmail"
-                                        class="block py-3 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-zinc-800 appearance-none focus:outline-none focus:ring-0 focus:border-amber-500 peer" 
+                                        class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-zinc-800 appearance-none focus:outline-none focus:ring-0 focus:border-amber-500 peer" 
                                         placeholder=" " 
                                         required 
                                     />
@@ -985,7 +985,7 @@
                                         name="company_name" 
                                         id="company_name" 
                                         x-model="companyName"
-                                        class="block py-3 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-zinc-800 appearance-none focus:outline-none focus:ring-0 focus:border-amber-500 peer" 
+                                        class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-zinc-800 appearance-none focus:outline-none focus:ring-0 focus:border-amber-500 peer" 
                                         placeholder=" " 
                                     />
                                     <label 
@@ -998,18 +998,18 @@
 
                                 <!-- Select Project Type dropdown menu style -->
                                 <div class="space-y-2">
-                                    <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest">Project Type *</label>
+                                    <label class="text-[10px] sm:text-xs font-mono text-zinc-500 uppercase tracking-widest">Project Type *</label>
                                     <select 
                                         x-model="projectType" 
-                                        class="w-full bg-zinc-950 border-b-2 border-zinc-800 focus:border-amber-500 text-zinc-100 text-sm py-3 focus:outline-none focus:ring-0"
+                                        class="w-full bg-zinc-950/40 border-b-2 border-zinc-800 focus:border-amber-500 text-zinc-100 text-sm py-2.5 focus:outline-none focus:ring-0"
                                     >
-                                        <option value="Website Design">Website Design</option>
-                                        <option value="UI/UX Design">UI/UX Design</option>
-                                        <option value="Landing Page Design">Landing Page Design</option>
-                                        <option value="Dashboard Design">Dashboard Design</option>
-                                        <option value="Google Apps Script Web Applications">Google Apps Script Web Applications</option>
-                                        <option value="Website Redesign">Website Redesign</option>
-                                        <option value="Design Systems">Design Systems</option>
+                                        <option class="bg-zinc-950" value="Website Design">Website Design</option>
+                                        <option class="bg-zinc-950" value="UI/UX Design">UI/UX Design</option>
+                                        <option class="bg-zinc-950" value="Landing Page Design">Landing Page Design</option>
+                                        <option class="bg-zinc-950" value="Dashboard Design">Dashboard Design</option>
+                                        <option class="bg-zinc-950" value="Google Apps Script Web Applications">Google Apps Script Web Applications</option>
+                                        <option class="bg-zinc-950" value="Website Redesign">Website Redesign</option>
+                                        <option class="bg-zinc-950" value="Design Systems">Design Systems</option>
                                     </select>
                                 </div>
 
@@ -1020,7 +1020,7 @@
                                         id="project_message" 
                                         rows="4"
                                         x-model="contactMessage"
-                                        class="block py-3 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-zinc-800 appearance-none focus:outline-none focus:ring-0 focus:border-amber-500 peer resize-none" 
+                                        class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-zinc-800 appearance-none focus:outline-none focus:ring-0 focus:border-amber-500 peer resize-none" 
                                         placeholder=" " 
                                         required
                                     ></textarea>
@@ -1034,21 +1034,21 @@
 
                                 <!-- Budget Tier metrics -->
                                 <div class="space-y-3">
-                                    <span class="block text-xs font-mono text-zinc-500 uppercase tracking-widest">ESTIMATED PROJECT BUDGET *</span>
-                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                        <label class="border border-zinc-800 hover:border-zinc-700 bg-zinc-950 p-3 rounded-lg text-center cursor-pointer flex items-center justify-center gap-2">
+                                    <span class="block text-[10px] sm:text-xs font-mono text-zinc-500 uppercase tracking-widest">ESTIMATED PROJECT BUDGET *</span>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+                                        <label class="border border-zinc-800 hover:border-zinc-700 bg-zinc-950/60 p-3 rounded-lg text-center cursor-pointer flex items-center justify-center gap-2">
                                             <input type="radio" name="budget_tier" value="Under $500" x-model="estimatedBudget" class="accent-amber-500 text-amber-500" checked>
                                             <span class="text-xs font-mono text-zinc-300">Under $500</span>
                                         </label>
-                                        <label class="border border-zinc-800 hover:border-zinc-700 bg-zinc-950 p-3 rounded-lg text-center cursor-pointer flex items-center justify-center gap-2">
+                                        <label class="border border-zinc-800 hover:border-zinc-700 bg-zinc-950/60 p-3 rounded-lg text-center cursor-pointer flex items-center justify-center gap-2">
                                             <input type="radio" name="budget_tier" value="$500–2K" x-model="estimatedBudget" class="accent-amber-500">
                                             <span class="text-xs font-mono text-zinc-300">$500 – $2K</span>
                                         </label>
-                                        <label class="border border-zinc-800 hover:border-zinc-700 bg-zinc-950 p-3 rounded-lg text-center cursor-pointer flex items-center justify-center gap-2">
+                                        <label class="border border-zinc-800 hover:border-zinc-700 bg-zinc-950/60 p-3 rounded-lg text-center cursor-pointer flex items-center justify-center gap-2">
                                             <input type="radio" name="budget_tier" value="$2K–5K" x-model="estimatedBudget" class="accent-amber-500">
                                             <span class="text-xs font-mono text-zinc-300">$2K – $5K</span>
                                         </label>
-                                        <label class="border border-zinc-800 hover:border-zinc-700 bg-zinc-950 p-3 rounded-lg text-center cursor-pointer flex items-center justify-center gap-2">
+                                        <label class="border border-zinc-800 hover:border-zinc-700 bg-zinc-950/60 p-3 rounded-lg text-center cursor-pointer flex items-center justify-center gap-2">
                                             <input type="radio" name="budget_tier" value="$5K+" x-model="estimatedBudget" class="accent-amber-500">
                                             <span class="text-xs font-mono text-zinc-300">$5K+</span>
                                         </label>
@@ -1058,7 +1058,7 @@
                                 <!-- Submission Submit Button -->
                                 <button 
                                     type="submit" 
-                                    class="w-full relative group overflow-hidden bg-white hover:bg-amber-500 text-zinc-950 font-mono text-xs uppercase font-bold tracking-widest py-4 px-6 rounded-xl flex items-center justify-center gap-3 transition-colors duration-500 focus:outline-none"
+                                    class="w-full relative group overflow-hidden bg-white hover:bg-amber-500 text-zinc-950 font-mono text-xs uppercase font-bold tracking-widest py-3.5 sm:py-4 px-6 rounded-xl flex items-center justify-center gap-3 transition-colors duration-500 focus:outline-none"
                                     :disabled="isSubmitting"
                                 >
                                     <span x-show="!isSubmitting" class="flex items-center gap-2">
@@ -1112,64 +1112,64 @@
         </section>
 
         <!-- ================= SECTION 6: CONTACT & FOOTER ================= -->
-        <section class="relative py-24 bg-zinc-950 border-t border-zinc-900">
-            <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <section class="relative py-16 sm:py-24 bg-transparent border-t border-zinc-900 backdrop-blur-[1px]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-12 mb-12 sm:mb-16">
                     <!-- WhatsApp Coordinates -->
-                    <div class="p-6 rounded-2xl bg-zinc-900/10 border border-zinc-900 flex items-start gap-4 hover:border-zinc-800 transition-colors">
+                    <div class="p-5 sm:p-6 rounded-2xl bg-zinc-900/10 border border-zinc-900 flex items-start gap-4 hover:border-zinc-800 transition-colors backdrop-blur-[2px]">
                         <div class="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0">
                             <i data-lucide="message-square" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <h5 class="font-mono text-xs text-zinc-500 uppercase tracking-widest">WhatsApp Direct</h5>
-                            <p class="text-white font-mono text-sm mt-1">+63 (099) 985-112</p>
+                            <h5 class="font-mono text-[10px] sm:text-xs text-zinc-500 uppercase tracking-widest">WhatsApp Direct</h5>
+                            <p class="text-white font-mono text-xs sm:text-sm mt-1">+63 (099) 985-112</p>
                             <a href="https://wa.me/63099985112" target="_blank" rel="noopener" class="text-xs text-amber-500 mt-2 block hover:underline">Open Conversation</a>
                         </div>
                     </div>
 
                     <!-- Email address -->
-                    <div class="p-6 rounded-2xl bg-zinc-900/10 border border-zinc-900 flex items-start gap-4 hover:border-zinc-800 transition-colors">
+                    <div class="p-5 sm:p-6 rounded-2xl bg-zinc-900/10 border border-zinc-900 flex items-start gap-4 hover:border-zinc-800 transition-colors backdrop-blur-[2px]">
                         <div class="w-10 h-10 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
                             <i data-lucide="mail" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <h5 class="font-mono text-xs text-zinc-500 uppercase tracking-widest">Direct Mailbox</h5>
-                            <p class="text-white font-mono text-sm mt-1">junaxdmly@gmail.com</p>
+                            <h5 class="font-mono text-[10px] sm:text-xs text-zinc-500 uppercase tracking-widest">Direct Mailbox</h5>
+                            <p class="text-white font-mono text-xs sm:text-sm mt-1">junaxdmly@gmail.com</p>
                             <a href="mailto:junaxdmly@gmail.com" class="text-xs text-amber-500 mt-2 block hover:underline">Compose Message</a>
                         </div>
                     </div>
 
                     <!-- Physical location coords -->
-                    <div class="p-6 rounded-2xl bg-zinc-900/10 border border-zinc-900 flex items-start gap-4 hover:border-zinc-800 transition-colors">
+                    <div class="p-5 sm:p-6 rounded-2xl bg-zinc-900/10 border border-zinc-900 flex items-start gap-4 hover:border-zinc-800 transition-colors backdrop-blur-[2px]">
                         <div class="w-10 h-10 rounded-full bg-sky-500/10 text-sky-500 flex items-center justify-center shrink-0">
                             <i data-lucide="map-pin" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <h5 class="font-mono text-xs text-zinc-500 uppercase tracking-widest">Main Location</h5>
-                            <p class="text-white text-sm mt-1">Ozamiz City, Philippines</p>
-                            <span class="text-[10px] font-mono text-zinc-500 uppercase mt-2 block">GMT+8 Standard Time</span>
+                            <h5 class="font-mono text-[10px] sm:text-xs text-zinc-500 uppercase tracking-widest">Main Location</h5>
+                            <p class="text-white text-xs sm:text-sm mt-1">Ozamiz City, Philippines</p>
+                            <span class="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase mt-2 block">GMT+8 Standard Time</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Social Links & Legals -->
-                <footer class="pt-12 border-t border-zinc-900 flex flex-col lg:flex-row items-center justify-between gap-6">
+                <footer class="pt-10 sm:pt-12 border-t border-zinc-900 flex flex-col lg:flex-row items-center justify-between gap-6">
                     <!-- Branding metadata -->
                     <div class="flex items-center gap-3">
                         <span class="w-2.5 h-2.5 bg-amber-500 rounded-full animate-pulse"></span>
-                        <span class="font-mono text-[10px] text-zinc-500 tracking-[0.2em] uppercase">
+                        <span class="font-mono text-[9px] sm:text-[10px] text-zinc-500 tracking-[0.1em] sm:tracking-[0.2em] uppercase text-center sm:text-left">
                             &copy; 2017 - 2026 ALJUNE.Q | ALL RIGHTS SECURED.
                         </span>
                     </div>
 
                     <!-- Footer social links -->
-                    <div class="flex flex-wrap justify-center gap-6 font-mono text-[11px] text-zinc-500">
-                        <a href="https://www.facebook.com" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase">Facebook</a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase">LinkedIn</a>
-                        <a href="https://www.behance.net" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase">Behance</a>
-                        <a href="https://dribbble.com" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase">Dribbble</a>
-                        <a href="https://github.com" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase">GitHub</a>
+                    <div class="flex flex-wrap justify-center gap-4 sm:gap-6 font-mono text-[10px] sm:text-[11px] text-zinc-500">
+                        <a href="https://www.facebook.com" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase tracking-wider">Facebook</a>
+                        <a href="https://www.linkedin.com" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase tracking-wider">LinkedIn</a>
+                        <a href="https://www.behance.net" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase tracking-wider">Behance</a>
+                        <a href="https://dribbble.com" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase tracking-wider">Dribbble</a>
+                        <a href="https://github.com" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase tracking-wider">GitHub</a>
                     </div>
                 </footer>
 
@@ -1191,45 +1191,73 @@
             // Smoothed Mouse coordinates
             let mouse = { x: width / 2, y: height / 2, targetX: width / 2, targetY: height / 2 };
 
-            // Mouse track events
+            // Scroll tracking parameters for physical interaction mapping
+            let scrollY = window.pageYOffset;
+            let targetScrollY = window.pageYOffset;
+            let scrollVelocity = 0;
+            let lastScrollTime = Date.now();
+
+            // Track mouse positions relative to viewport
             window.addEventListener('mousemove', (e) => {
                 mouse.targetX = e.clientX;
                 mouse.targetY = e.clientY;
             });
 
+            // Handle touchmove for mobile devices to allow interactive tracking on swipes
+            window.addEventListener('touchmove', (e) => {
+                if (e.touches && e.touches.length > 0) {
+                    mouse.targetX = e.touches[0].clientX;
+                    mouse.targetY = e.touches[0].clientY;
+                }
+            });
+
+            // Handle browser resize events
             window.addEventListener('resize', () => {
                 width = canvas.width = window.innerWidth;
                 height = canvas.height = window.innerHeight;
             });
 
-            // Generative Wave System (Multi-strand glowing ribbon paths)
+            // Capture scroll metrics and derive scroll velocity
+            window.addEventListener('scroll', () => {
+                targetScrollY = window.pageYOffset;
+                const now = Date.now();
+                const dt = now - lastScrollTime;
+                if (dt > 0) {
+                    const instantaneousVelocity = Math.abs(targetScrollY - scrollY) / dt;
+                    scrollVelocity += (instantaneousVelocity - scrollVelocity) * 0.2; // Smooth out velocity spikes
+                }
+                scrollY = targetScrollY;
+                lastScrollTime = now;
+            });
+
+            // Generative Wave System (Multi-strand glowing ribbon paths spanning different heights)
             let waves = [
                 {
-                    y: height * 0.45,
-                    length: 0.0012,
-                    amplitude: 110,
-                    speed: 0.005,
+                    baseYRatio: 0.35, // Position relative to viewport height
+                    length: 0.0010,
+                    amplitude: 130,
+                    speed: 0.004,
                     color: '#f59e0b', // Amber Primary
                     phase: 0,
-                    strands: 5 // Parallel offset lines to create volumetric depth
+                    strands: 6 // Volumetric path strands
                 },
                 {
-                    y: height * 0.52,
-                    length: 0.0018,
-                    amplitude: 140,
-                    speed: 0.003,
-                    color: '#fbbf24', // Yellow Secondary
-                    phase: 2,
+                    baseYRatio: 0.50,
+                    length: 0.0015,
+                    amplitude: 160,
+                    speed: 0.002,
+                    color: '#fbbf24', // Gold Secondary
+                    phase: 2.3,
+                    strands: 5
+                },
+                {
+                    baseYRatio: 0.65,
+                    length: 0.0007,
+                    amplitude: 100,
+                    speed: 0.006,
+                    color: '#f59e0b', // Accent warm amber
+                    phase: 4.5,
                     strands: 4
-                },
-                {
-                    y: height * 0.38,
-                    length: 0.0008,
-                    amplitude: 80,
-                    speed: 0.007,
-                    color: '#ffffff', // Clean White Accent Ribbon
-                    phase: 4,
-                    strands: 3
                 }
             ];
 
@@ -1237,44 +1265,70 @@
             function animate() {
                 ctx.clearRect(0, 0, width, height);
 
-                // Smoothly interpolate mouse positions for liquid lag effect
+                // Smoothly decay scroll velocity back to baseline drift state
+                scrollVelocity *= 0.95;
+
+                // Smoothly interpolate mouse positions (LERP)
                 mouse.x += (mouse.targetX - mouse.x) * 0.05;
                 mouse.y += (mouse.targetY - mouse.y) * 0.05;
 
                 ctx.globalCompositeOperation = 'screen';
 
+                // Render dynamic mouse-light spotlight backing
+                const spotlightRadius = window.innerWidth < 768 ? 180 : 350;
+                const spotlight = ctx.createRadialGradient(mouse.x, mouse.y, 5, mouse.x, mouse.y, spotlightRadius);
+                spotlight.addColorStop(0, 'rgba(245, 158, 11, 0.06)');
+                spotlight.addColorStop(0.5, 'rgba(245, 158, 11, 0.015)');
+                spotlight.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = spotlight;
+                ctx.beginPath();
+                ctx.arc(mouse.x, mouse.y, spotlightRadius, 0, Math.PI * 2);
+                ctx.fill();
+
                 waves.forEach(wave => {
-                    // Loop through parallel nested strands for volumetric depth
+                    // Update baseline y value dynamically to viewport height
+                    const currentWaveBaseY = height * wave.baseYRatio;
+
+                    // Strands drawing pass
                     for (let s = 0; s < wave.strands; s++) {
                         ctx.beginPath();
                         
-                        // Dynamic strand parameters offset slightly by index
-                        const strandOffset = s * 14; 
-                        const opacity = (1 - (s / wave.strands)) * 0.28; // Higher visibility, tapered falloffs
+                        const strandOffset = s * (window.innerWidth < 768 ? 10 : 16); 
+                        // Increase base opacity to make lines look extremely crisp and bright
+                        const baseOpacity = 0.40;
+                        const opacity = (1 - (s / wave.strands)) * baseOpacity;
 
-                        // Canvas line configuration
-                        ctx.strokeStyle = wave.color === '#ffffff' ? `rgba(255, 255, 255, ${opacity * 0.5})` : `rgba(245, 158, 11, ${opacity})`;
-                        ctx.lineWidth = 1.5 - (s * 0.2);
+                        // Stroke configuration
+                        ctx.strokeStyle = `rgba(245, 158, 11, ${opacity})`;
+                        ctx.lineWidth = window.innerWidth < 768 ? 1.0 - (s * 0.1) : 1.8 - (s * 0.2);
 
-                        // High-contrast glow parameters
-                        ctx.shadowBlur = wave.color === '#ffffff' ? 0 : 25 - (s * 4);
-                        ctx.shadowColor = 'rgba(245, 158, 11, 0.45)';
+                        // High contrast shadow glow configuration (reduced blur on mobile for massive performance gains)
+                        const maxBlur = window.innerWidth < 768 ? 12 : 35;
+                        ctx.shadowBlur = maxBlur - (s * (window.innerWidth < 768 ? 1 : 4));
+                        ctx.shadowColor = 'rgba(245, 158, 11, 0.70)';
 
-                        for (let x = 0; x < width; x += 3) {
-                            // Sinusoidal base wave
-                            let baseWave = Math.sin(x * wave.length + wave.phase + (s * 0.15)) * wave.amplitude * Math.cos(wave.phase * 0.2);
+                        for (let x = 0; x < width; x += (window.innerWidth < 768 ? 6 : 3)) {
+                            // Boost amplitude of wave based on current scrolling speed (scroll velocity)
+                            const dynamicAmplitude = wave.amplitude + (scrollVelocity * 45);
                             
-                            // Dynamic cursor drag calculation (waves bend organically toward mouse pointer)
-                            const distanceToMouse = Math.abs(x - mouse.x);
-                            let mouseInfluence = 0;
-                            if (distanceToMouse < 300) {
-                                // Create soft bell-curve proximity factor
-                                const strength = (1 - distanceToMouse / 300);
-                                mouseInfluence = (mouse.y - wave.y) * strength * 0.45;
+                            // Base trigonometric ribbon path
+                            let baseWave = Math.sin(x * wave.length + wave.phase + (s * 0.12)) * dynamicAmplitude * Math.cos(wave.phase * 0.15);
+                            
+                            // Advanced magnetic cursor pull calculation (works viewport wide)
+                            const dx = x - mouse.x;
+                            const dy = currentWaveBaseY - mouse.y;
+                            const distToCursor = Math.hypot(dx, dy);
+                            let cursorInfluence = 0;
+
+                            const maxInfluenceDist = window.innerWidth < 768 ? 200 : 400;
+                            if (distToCursor < maxInfluenceDist) {
+                                // Dynamic bell curve distribution strength
+                                const influenceStrength = Math.pow(1 - (distToCursor / maxInfluenceDist), 2);
+                                cursorInfluence = (mouse.y - currentWaveBaseY) * influenceStrength * 0.65;
                             }
 
-                            // Final plot point
-                            const yVal = wave.y + baseWave + mouseInfluence + strandOffset;
+                            // Final composite coordinate calculations
+                            const yVal = currentWaveBaseY + baseWave + cursorInfluence + strandOffset;
                             
                             if (x === 0) {
                                 ctx.moveTo(x, yVal);
@@ -1286,11 +1340,12 @@
                         ctx.stroke();
                     }
                     
-                    // Progress oscillation timeline phase
-                    wave.phase += wave.speed;
+                    // Progress animation phase (dynamic speeds driven forward by scroll speed)
+                    const speedMultiplier = 1 + (scrollVelocity * 1.5);
+                    wave.phase += wave.speed * speedMultiplier;
                 });
 
-                // Reset shadow values for performance sanitization on other canvas drawing operations
+                // Clear shadow blur parameters to clean canvas cycles
                 ctx.shadowBlur = 0;
 
                 requestAnimationFrame(animate);
