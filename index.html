@@ -1,2261 +1,1306 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ALJUNE.Q — Web Designer & Developer</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&family=Poppins:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <style>
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --cream: #F8F5F0;
-      --warm: #EDE8DF;
-      --sand: #D9CFC1;
-      --taupe: #B8A99A;
-      --mocha: #7A6558;
-      --espresso: #3D2B1F;
-      --ink: #1A1208;
-      --blush: #E8D5C4;
-      --sage: #C4CEBF;
-      --accent: #C4885A;
-      --accent2: #8FA68E;
-      --white: #FFFFFF;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--cream);
-      color: var(--espresso);
-      overflow-x: hidden;
-      cursor: none;
-    }
-
-    /* ─── CUSTOM CURSOR ───────────────────────────────────── */
-    .cursor {
-      width: 10px;
-      height: 10px;
-      background: var(--accent);
-      border-radius: 50%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform .1s, width .25s, height .25s, background .25s;
-    }
-
-    .cursor-ring {
-      width: 36px;
-      height: 36px;
-      border: 1.5px solid var(--accent);
-      border-radius: 50%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: transform .18s ease, width .3s, height .3s, opacity .3s;
-      opacity: .7;
-    }
-
-    body:hover .cursor {
-      transform: translate(-50%, -50%) scale(1);
-    }
-
-    a:hover~.cursor,
-    button:hover~.cursor {
-      width: 20px;
-      height: 20px;
-    }
-
-    /* ─── NAV ─────────────────────────────────────────────── */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-      padding: 22px 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: background .5s, padding .5s, backdrop-filter .5s;
-    }
-
-    nav.scrolled {
-      background: rgba(248, 245, 240, .88);
-      backdrop-filter: blur(18px);
-      padding: 14px 60px;
-      border-bottom: 1px solid rgba(184, 169, 154, .2);
-    }
-
-    .nav-logo {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 800;
-      letter-spacing: .18em;
-      color: var(--ink);
-      text-decoration: none;
-      position: relative;
-    }
-
-    .nav-logo span {
-      color: var(--accent);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 38px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-family: 'Poppins', sans-serif;
-      font-size: .78rem;
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--espresso);
-      text-decoration: none;
-      position: relative;
-      padding-bottom: 4px;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: var(--accent);
-      transition: width .35s ease;
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    .nav-cta {
-      font-family: 'Poppins', sans-serif;
-      font-size: .78rem;
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--white);
-      text-decoration: none;
-      background: var(--espresso);
-      padding: 11px 26px;
-      border-radius: 2px;
-      transition: background .3s, transform .3s;
-    }
-
-    .nav-cta:hover {
-      background: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    /* ─── HERO ────────────────────────────────────────────── */
-    #hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
-      background: var(--cream);
-    }
-
-    .hero-left {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 140px 60px 80px 60px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-eyebrow {
-      font-family: 'Poppins', sans-serif;
-      font-size: .72rem;
-      font-weight: 500;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-      color: var(--taupe);
-      margin-bottom: 20px;
-      opacity: 0;
-      animation: fadeUp .9s .3s forwards;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .hero-eyebrow::before {
-      content: '';
-      display: block;
-      width: 30px;
-      height: 1px;
-      background: var(--accent);
-    }
-
-    .hero-h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(3.2rem, 5.5vw, 6.2rem);
-      font-weight: 800;
-      line-height: .95;
-      letter-spacing: -.03em;
-      color: var(--ink);
-      margin-bottom: 28px;
-      opacity: 0;
-      animation: fadeUp .9s .5s forwards;
-    }
-
-    .hero-h1 em {
-      font-style: italic;
-      font-weight: 300;
-      color: var(--accent);
-    }
-
-    .hero-sub {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1rem;
-      font-weight: 300;
-      line-height: 1.8;
-      color: var(--mocha);
-      max-width: 420px;
-      margin-bottom: 48px;
-      opacity: 0;
-      animation: fadeUp .9s .7s forwards;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 18px;
-      align-items: center;
-      opacity: 0;
-      animation: fadeUp .9s .85s forwards;
-    }
-
-    .btn-primary {
-      font-family: 'Poppins', sans-serif;
-      font-size: .82rem;
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--white);
-      text-decoration: none;
-      background: var(--accent);
-      padding: 15px 36px;
-      border-radius: 2px;
-      transition: background .3s, transform .3s, box-shadow .3s;
-      box-shadow: 0 8px 30px rgba(196, 136, 90, .25);
-    }
-
-    .btn-primary:hover {
-      background: var(--espresso);
-      transform: translateY(-3px);
-      box-shadow: 0 14px 40px rgba(61, 43, 31, .2);
-    }
-
-    .btn-ghost {
-      font-family: 'Poppins', sans-serif;
-      font-size: .82rem;
-      font-weight: 500;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--espresso);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: gap .3s, color .3s;
-    }
-
-    .btn-ghost:hover {
-      gap: 16px;
-      color: var(--accent);
-    }
-
-    .btn-ghost svg {
-      transition: transform .3s;
-    }
-
-    .btn-ghost:hover svg {
-      transform: translateX(4px);
-    }
-
-    .hero-stats {
-      display: flex;
-      gap: 40px;
-      margin-top: 60px;
-      opacity: 0;
-      animation: fadeUp .9s 1s forwards;
-    }
-
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .stat-num {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: var(--ink);
-      letter-spacing: -.04em;
-      line-height: 1;
-    }
-
-    .stat-num span {
-      color: var(--accent);
-      font-size: 1.4rem;
-    }
-
-    .stat-label {
-      font-family: 'Poppins', sans-serif;
-      font-size: .7rem;
-      font-weight: 500;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--taupe);
-    }
-
-    .hero-right {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-img-wrap {
-      position: absolute;
-      inset: 0;
-      clip-path: polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%);
-      opacity: 0;
-      animation: heroImgIn 1.2s .4s forwards;
-    }
-
-    @keyframes heroImgIn {
-      from {
-        opacity: 0;
-        clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 12% 100%);
-      }
-
-      to {
-        opacity: 1;
-        clip-path: polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%);
-      }
-    }
-
-    .hero-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(.9) contrast(1.05);
-    }
-
-    .hero-img-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(248, 245, 240, .15) 0%, transparent 60%);
-    }
-
-    .hero-tag {
-      position: absolute;
-      bottom: 50px;
-      left: -30px;
-      background: var(--white);
-      padding: 18px 24px;
-      border-radius: 4px;
-      box-shadow: 0 20px 60px rgba(61, 43, 31, .12);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      opacity: 0;
-      animation: fadeUp 1s 1.2s forwards;
-      z-index: 3;
-    }
-
-    .hero-tag-label {
-      font-family: 'Poppins', sans-serif;
-      font-size: .65rem;
-      font-weight: 500;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--taupe);
-    }
-
-    .hero-tag-val {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--ink);
-    }
-
-    .hero-scroll {
-      position: absolute;
-      bottom: 36px;
-      left: 60px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: 'Poppins', sans-serif;
-      font-size: .68rem;
-      font-weight: 500;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--taupe);
-      opacity: 0;
-      animation: fadeUp 1s 1.3s forwards;
-      z-index: 3;
-    }
-
-    .scroll-line {
-      width: 1px;
-      height: 50px;
-      background: var(--sand);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .scroll-line::after {
-      content: '';
-      position: absolute;
-      top: -100%;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--accent);
-      animation: scrollAnim 2s 1.5s infinite ease-in-out;
-    }
-
-    @keyframes scrollAnim {
-      0% {
-        top: -100%;
-      }
-
-      100% {
-        top: 100%;
-      }
-    }
-
-    .hero-bg-text {
-      position: absolute;
-      bottom: -30px;
-      left: 50px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14vw;
-      font-weight: 900;
-      letter-spacing: -.04em;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(122, 101, 88, .06);
-      pointer-events: none;
-      z-index: 1;
-      white-space: nowrap;
-      opacity: 0;
-      animation: fadeIn 1s 1s forwards;
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    /* ─── SECTION COMMONS ─────────────────────────────────── */
-    section {
-      position: relative;
-    }
-
-    .section-label {
-      font-family: 'Poppins', sans-serif;
-      font-size: .7rem;
-      font-weight: 500;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-      color: var(--taupe);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .section-label::before {
-      content: '';
-      display: block;
-      width: 24px;
-      height: 1px;
-      background: var(--accent);
-    }
-
-    .section-h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(2rem, 3.5vw, 3.4rem);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -.03em;
-      color: var(--ink);
-    }
-
-    .section-h2 em {
-      font-style: italic;
-      font-weight: 300;
-      color: var(--accent);
-    }
-
-    /* reveal on scroll */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity .8s ease, transform .8s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal-delay-1 {
-      transition-delay: .15s;
-    }
-
-    .reveal-delay-2 {
-      transition-delay: .3s;
-    }
-
-    .reveal-delay-3 {
-      transition-delay: .45s;
-    }
-
-    .reveal-delay-4 {
-      transition-delay: .6s;
-    }
-
-    /* ─── ABOUT ───────────────────────────────────────────── */
-    #about {
-      background: var(--warm);
-      padding: 130px 60px;
-      display: grid;
-      grid-template-columns: 1fr 1.1fr;
-      gap: 100px;
-      align-items: center;
-    }
-
-    .about-img-col {
-      position: relative;
-    }
-
-    .about-img-main {
-      width: 100%;
-      aspect-ratio: 3/4;
-      object-fit: cover;
-      border-radius: 3px;
-      display: block;
-      box-shadow: 30px 40px 80px rgba(61, 43, 31, .15);
-    }
-
-    .about-img-accent {
-      position: absolute;
-      bottom: -30px;
-      right: -30px;
-      width: 55%;
-      aspect-ratio: 1;
-      object-fit: cover;
-      border-radius: 3px;
-      box-shadow: 20px 30px 60px rgba(61, 43, 31, .15);
-      border: 6px solid var(--warm);
-    }
-
-    .about-badge {
-      position: absolute;
-      top: 30px;
-      left: -30px;
-      background: var(--accent);
-      color: var(--white);
-      padding: 16px 20px;
-      border-radius: 3px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(196, 136, 90, .3);
-    }
-
-    .about-badge-num {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2rem;
-      font-weight: 800;
-      line-height: 1;
-      display: block;
-    }
-
-    .about-badge-text {
-      font-family: 'Poppins', sans-serif;
-      font-size: .65rem;
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      display: block;
-      margin-top: 4px;
-    }
-
-    .about-right {}
-
-    .about-desc {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1rem;
-      font-weight: 300;
-      line-height: 1.9;
-      color: var(--mocha);
-      margin: 20px 0 36px;
-    }
-
-    .about-skills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 40px;
-    }
-
-    .skill-tag {
-      font-family: 'Poppins', sans-serif;
-      font-size: .72rem;
-      font-weight: 500;
-      letter-spacing: .08em;
-      color: var(--espresso);
-      background: var(--sand);
-      padding: 8px 18px;
-      border-radius: 2px;
-      transition: background .3s, color .3s, transform .3s;
-    }
-
-    .skill-tag:hover {
-      background: var(--accent);
-      color: var(--white);
-      transform: translateY(-2px);
-    }
-
-    .about-tools-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      align-items: center;
-      margin-top: 10px;
-    }
-
-    .tool-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .tool-icon {
-      width: 44px;
-      height: 44px;
-      background: var(--white);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      box-shadow: 0 4px 15px rgba(61, 43, 31, .08);
-      transition: transform .3s, box-shadow .3s;
-    }
-
-    .tool-icon:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(61, 43, 31, .15);
-    }
-
-    .tool-name {
-      font-family: 'Poppins', sans-serif;
-      font-size: .62rem;
-      font-weight: 500;
-      letter-spacing: .05em;
-      color: var(--taupe);
-    }
-
-    /* ─── PORTFOLIO ───────────────────────────────────────── */
-    #portfolio {
-      padding: 130px 60px;
-      background: var(--cream);
-    }
-
-    .portfolio-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 70px;
-    }
-
-    .portfolio-filter {
-      display: flex;
-      gap: 8px;
-    }
-
-    .filter-btn {
-      font-family: 'Poppins', sans-serif;
-      font-size: .72rem;
-      font-weight: 500;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--mocha);
-      background: transparent;
-      border: 1px solid var(--sand);
-      padding: 9px 20px;
-      border-radius: 2px;
-      cursor: none;
-      transition: all .3s;
-    }
-
-    .filter-btn.active,
-    .filter-btn:hover {
-      background: var(--espresso);
-      color: var(--white);
-      border-color: var(--espresso);
-    }
-
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-auto-rows: auto;
-      gap: 24px;
-    }
-
-    .proj-card {
-      border-radius: 4px;
-      overflow: hidden;
-      position: relative;
-      cursor: none;
-      background: var(--warm);
-    }
-
-    .proj-card:nth-child(1) {
-      grid-column: 1 / 8;
-    }
-
-    .proj-card:nth-child(2) {
-      grid-column: 8 / 13;
-    }
-
-    .proj-card:nth-child(3) {
-      grid-column: 1 / 5;
-    }
-
-    .proj-card:nth-child(4) {
-      grid-column: 5 / 9;
-    }
-
-    .proj-card:nth-child(5) {
-      grid-column: 9 / 13;
-    }
-
-    .proj-img-wrap {
-      overflow: hidden;
-      aspect-ratio: 16/10;
-    }
-
-    .proj-card:nth-child(1) .proj-img-wrap {
-      aspect-ratio: 16/9;
-    }
-
-    .proj-card:nth-child(2) .proj-img-wrap {
-      aspect-ratio: 4/5;
-    }
-
-    .proj-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .7s ease;
-      display: block;
-    }
-
-    .proj-card:hover .proj-img-wrap img {
-      transform: scale(1.06);
-    }
-
-    .proj-info {
-      padding: 22px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-    }
-
-    .proj-meta {}
-
-    .proj-cat {
-      font-family: 'Poppins', sans-serif;
-      font-size: .65rem;
-      font-weight: 500;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--taupe);
-      margin-bottom: 4px;
-    }
-
-    .proj-name {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--ink);
-      letter-spacing: -.02em;
-    }
-
-    .proj-arrow {
-      width: 38px;
-      height: 38px;
-      background: var(--sand);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background .3s, transform .3s;
-      flex-shrink: 0;
-    }
-
-    .proj-card:hover .proj-arrow {
-      background: var(--accent);
-      transform: rotate(45deg);
-    }
-
-    .proj-arrow svg {
-      color: var(--espresso);
-    }
-
-    .proj-card:hover .proj-arrow svg {
-      color: var(--white);
-    }
-
-    .proj-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(26, 18, 8, .7);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      transition: opacity .4s;
-    }
-
-    .proj-card:hover .proj-overlay {
-      opacity: 1;
-    }
-
-    .proj-overlay-text {
-      font-family: 'Montserrat', sans-serif;
-      font-size: .8rem;
-      font-weight: 700;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--white);
-      background: var(--accent);
-      padding: 12px 28px;
-      border-radius: 2px;
-      transform: translateY(10px);
-      transition: transform .4s .1s;
-    }
-
-    .proj-card:hover .proj-overlay-text {
-      transform: translateY(0);
-    }
-
-    /* ─── TESTIMONIALS ────────────────────────────────────── */
-    #testimonials {
-      background: var(--espresso);
-      padding: 130px 60px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    #testimonials::before {
-      content: '"';
-      position: absolute;
-      top: -40px;
-      left: 40px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 25vw;
-      font-weight: 900;
-      color: rgba(255, 255, 255, .03);
-      line-height: 1;
-      pointer-events: none;
-    }
-
-    #testimonials .section-label {
-      color: rgba(196, 136, 90, .8);
-    }
-
-    #testimonials .section-label::before {
-      background: var(--accent);
-    }
-
-    #testimonials .section-h2 {
-      color: var(--cream);
-      margin-bottom: 60px;
-    }
-
-    #testimonials .section-h2 em {
-      color: var(--accent);
-    }
-
-    .testi-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .testi-card {
-      background: rgba(255, 255, 255, .05);
-      border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 4px;
-      padding: 36px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      transition: background .4s, transform .4s, box-shadow .4s;
-      backdrop-filter: blur(10px);
-    }
-
-    .testi-card:hover {
-      background: rgba(255, 255, 255, .09);
-      transform: translateY(-6px);
-      box-shadow: 0 30px 60px rgba(0, 0, 0, .3);
-    }
-
-    .testi-stars {
-      display: flex;
-      gap: 4px;
-    }
-
-    .star {
-      color: var(--accent);
-      font-size: .9rem;
-    }
-
-    .testi-quote {
-      font-family: 'Poppins', sans-serif;
-      font-size: .92rem;
-      font-weight: 300;
-      line-height: 1.85;
-      color: rgba(237, 232, 223, .75);
-      flex: 1;
-    }
-
-    .testi-author {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .testi-avatar {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(196, 136, 90, .4);
-    }
-
-    .testi-name {
-      font-family: 'Montserrat', sans-serif;
-      font-size: .88rem;
-      font-weight: 700;
-      color: var(--cream);
-      letter-spacing: -.01em;
-    }
-
-    .testi-role {
-      font-family: 'Poppins', sans-serif;
-      font-size: .68rem;
-      font-weight: 400;
-      letter-spacing: .1em;
-      color: rgba(196, 136, 90, .7);
-      margin-top: 2px;
-    }
-
-    /* ─── CONTACT ─────────────────────────────────────────── */
-    #contact {
-      padding: 130px 60px;
-      background: var(--warm);
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.3fr;
-      gap: 100px;
-      align-items: start;
-    }
-
-    .contact-left {}
-
-    .contact-desc {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1rem;
-      font-weight: 300;
-      line-height: 1.9;
-      color: var(--mocha);
-      margin: 20px 0 36px;
-    }
-
-    .contact-info-list {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .contact-info-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .contact-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 3px;
-      background: var(--blush);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-      transition: background .3s;
-    }
-
-    .contact-info-item:hover .contact-icon {
-      background: var(--accent);
-    }
-
-    .contact-info-text {}
-
-    .contact-info-label {
-      font-family: 'Poppins', sans-serif;
-      font-size: .65rem;
-      font-weight: 500;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--taupe);
-    }
-
-    .contact-info-val {
-      font-family: 'Poppins', sans-serif;
-      font-size: .9rem;
-      font-weight: 500;
-      color: var(--espresso);
-    }
-
-    /* FORM */
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .form-label {
-      font-family: 'Poppins', sans-serif;
-      font-size: .7rem;
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--taupe);
-    }
-
-    .form-input,
-    .form-select,
-    .form-textarea {
-      font-family: 'Poppins', sans-serif;
-      font-size: .88rem;
-      font-weight: 400;
-      color: var(--espresso);
-      background: var(--white);
-      border: 1px solid var(--sand);
-      border-radius: 3px;
-      padding: 13px 18px;
-      outline: none;
-      transition: border-color .3s, box-shadow .3s;
-      cursor: none;
-    }
-
-    .form-input:focus,
-    .form-select:focus,
-    .form-textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(196, 136, 90, .1);
-    }
-
-    .form-textarea {
-      resize: vertical;
-      min-height: 130px;
-      line-height: 1.7;
-    }
-
-    .form-select {
-      appearance: none;
-      cursor: none;
-    }
-
-    .quote-header {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -.01em;
-      color: var(--ink);
-      padding: 18px 0 10px;
-      border-top: 1px solid var(--sand);
-      margin-top: 4px;
-    }
-
-    .budget-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-
-    .budget-opt {
-      position: relative;
-    }
-
-    .budget-opt input[type="radio"] {
-      display: none;
-    }
-
-    .budget-opt label {
-      display: block;
-      text-align: center;
-      font-family: 'Poppins', sans-serif;
-      font-size: .72rem;
-      font-weight: 500;
-      letter-spacing: .06em;
-      color: var(--mocha);
-      background: var(--white);
-      border: 1px solid var(--sand);
-      padding: 10px 8px;
-      border-radius: 3px;
-      cursor: none;
-      transition: all .3s;
-    }
-
-    .budget-opt input:checked+label {
-      background: var(--espresso);
-      color: var(--white);
-      border-color: var(--espresso);
-    }
-
-    .budget-opt label:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .btn-submit {
-      font-family: 'Montserrat', sans-serif;
-      font-size: .82rem;
-      font-weight: 700;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--white);
-      background: var(--accent);
-      border: none;
-      border-radius: 3px;
-      padding: 17px 40px;
-      cursor: none;
-      transition: background .3s, transform .3s, box-shadow .3s;
-      box-shadow: 0 8px 30px rgba(196, 136, 90, .25);
-      align-self: flex-start;
-    }
-
-    .btn-submit:hover {
-      background: var(--espresso);
-      transform: translateY(-3px);
-      box-shadow: 0 14px 40px rgba(61, 43, 31, .2);
-    }
-
-    /* ─── FOOTER ──────────────────────────────────────────── */
-    footer {
-      background: var(--ink);
-      padding: 50px 60px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-logo {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 800;
-      letter-spacing: .18em;
-      color: var(--cream);
-      text-decoration: none;
-    }
-
-    .footer-logo span {
-      color: var(--accent);
-    }
-
-    .footer-copy {
-      font-family: 'Poppins', sans-serif;
-      font-size: .72rem;
-      font-weight: 400;
-      color: rgba(237, 232, 223, .35);
-      letter-spacing: .08em;
-    }
-
-    .footer-social {
-      display: flex;
-      gap: 14px;
-    }
-
-    .social-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, .12);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(237, 232, 223, .5);
-      text-decoration: none;
-      font-size: .82rem;
-      transition: border-color .3s, color .3s, background .3s;
-    }
-
-    .social-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(196, 136, 90, .1);
-    }
-
-    /* ─── RESPONSIVE ──────────────────────────────────────── */
-    @media (max-width: 1024px) {
-      nav {
-        padding: 18px 30px;
-      }
-
-      nav.scrolled {
-        padding: 12px 30px;
-      }
-
-      .nav-links {
-        gap: 24px;
-      }
-
-      #hero {
-        grid-template-columns: 1fr;
-        min-height: auto;
-      }
-
-      .hero-left {
-        padding: 140px 30px 60px;
-      }
-
-      .hero-right {
-        display: none;
-      }
-
-      #about {
-        grid-template-columns: 1fr;
-        padding: 80px 30px;
-        gap: 60px;
-      }
-
-      .about-img-main {
-        max-width: 400px;
-      }
-
-      #portfolio {
-        padding: 80px 30px;
-      }
-
-      .portfolio-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .proj-card:nth-child(n) {
-        grid-column: span 1;
-      }
-
-      .testi-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .testi-card:last-child {
-        grid-column: 1 / -1;
-      }
-
-      #testimonials {
-        padding: 80px 30px;
-      }
-
-      #contact {
-        padding: 80px 30px;
-      }
-
-      .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 60px;
-      }
-
-      footer {
-        flex-direction: column;
-        gap: 24px;
-        text-align: center;
-        padding: 40px 30px;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .nav-links {
-        display: none;
-      }
-
-      nav {
-        padding: 18px 20px;
-      }
-
-      nav.scrolled {
-        padding: 12px 20px;
-      }
-
-      .hero-left {
-        padding: 120px 20px 60px;
-      }
-
-      .hero-stats {
-        flex-wrap: wrap;
-        gap: 24px;
-      }
-
-      #about {
-        padding: 70px 20px;
-      }
-
-      #portfolio {
-        padding: 70px 20px;
-      }
-
-      .portfolio-header {
-        flex-direction: column;
-        gap: 24px;
-        align-items: flex-start;
-      }
-
-      .portfolio-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .proj-card:nth-child(n) {
-        grid-column: span 1;
-      }
-
-      #testimonials {
-        padding: 70px 20px;
-      }
-
-      .testi-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .testi-card:last-child {
-        grid-column: span 1;
-      }
-
-      #contact {
-        padding: 70px 20px;
-      }
-
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-
-      .budget-row {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      footer {
-        padding: 30px 20px;
-      }
-    }
-
-    /* ─── LOADER ──────────────────────────────────────────── */
-    body.loading {
-      overflow: hidden;
-      height: 100vh;
-    }
-
-    #loader {
-      position: fixed;
-      inset: 0;
-      background: var(--ink);
-      z-index: 10000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1);
-    }
-
-    #loader.loaded {
-      transform: translateY(-100%);
-      pointer-events: none;
-    }
-
-    .loader-content {
-      text-align: center;
-    }
-
-    .loader-logo {
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(2.2rem, 7vw, 5rem);
-      font-weight: 800;
-      letter-spacing: .25em;
-      color: var(--cream);
-      display: flex;
-      overflow: hidden;
-      line-height: 1.2;
-    }
-
-    .loader-logo span {
-      display: inline-block;
-      transform: translateY(115%);
-      animation: charReveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-    }
-
-    .loader-logo span.dot {
-      color: var(--accent);
-    }
-
-    @keyframes charReveal {
-      to {
-        transform: translateY(0);
-      }
-    }
-
-    /* ─── PORTFOLIO DETAIL MODAL ──────────────────────────── */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(26, 18, 8, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      z-index: 99999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      padding: 20px;
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-container {
-      background: var(--cream);
-      width: 100%;
-      max-width: 960px;
-      border-radius: 4px;
-      overflow: hidden;
-      position: relative;
-      border: 1px solid rgba(184, 169, 154, 0.25);
-      transform: scale(0.92);
-      opacity: 0;
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 30px 90px rgba(26, 18, 8, 0.35);
-    }
-
-    .modal-overlay.active .modal-container {
-      transform: scale(1);
-      opacity: 1;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 24px;
-      right: 24px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--white);
-      border: 1px solid var(--sand);
-      color: var(--espresso);
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: none;
-      z-index: 10;
-      transition: background 0.3s, color 0.3s, transform 0.3s;
-    }
-
-    .modal-close:hover {
-      background: var(--accent);
-      color: var(--white);
-      transform: rotate(90deg);
-    }
-
-    .modal-content {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-    }
-
-    .modal-media {
-      position: relative;
-      aspect-ratio: 4/5;
-      overflow: hidden;
-      background: var(--sand);
-    }
-
-    .modal-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .modal-body {
-      padding: 50px 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .modal-cat {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-
-    .modal-title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 800;
-      line-height: 1.25;
-      color: var(--ink);
-      margin-bottom: 20px;
-      letter-spacing: -0.02em;
-    }
-
-    .modal-desc {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.92rem;
-      font-weight: 300;
-      line-height: 1.8;
-      color: var(--mocha);
-      margin-bottom: 24px;
-    }
-
-    .modal-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 36px;
-    }
-
-    .modal-tag {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 500;
-      background: var(--sand);
-      color: var(--espresso);
-      padding: 6px 12px;
-      border-radius: 2px;
-    }
-
-    .modal-link {
-      align-self: flex-start;
-    }
-
-    @media (max-width: 768px) {
-      .modal-content {
-        grid-template-columns: 1fr;
-      }
-
-      .modal-media {
-        aspect-ratio: 16/10;
-      }
-
-      .modal-body {
-        padding: 35px 24px;
-      }
-
-      .modal-close {
-        top: 16px;
-        right: 16px;
-        width: 32px;
-        height: 32px;
-        font-size: 0.9rem;
-      }
-    }
-  </style>
-</head>
-
-<body class="loading">
-
-  <!-- LOADER -->
-  <div id="loader">
-    <div class="loader-content">
-      <div class="loader-logo">
-        <span style="animation-delay: 0.1s">A</span>
-        <span style="animation-delay: 0.18s">L</span>
-        <span style="animation-delay: 0.26s">J</span>
-        <span style="animation-delay: 0.34s">U</span>
-        <span style="animation-delay: 0.42s">N</span>
-        <span style="animation-delay: 0.5s">E</span>
-        <span style="animation-delay: 0.58s" class="dot">.</span>
-        <span style="animation-delay: 0.66s">Q</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- CURSOR -->
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <!-- ─── NAV ─────────────────────────────────────────────── -->
-  <nav id="navbar">
-    <a href="#hero" class="nav-logo">ALJUNE<span>.</span>Q</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#portfolio">Work</a></li>
-      <li><a href="#testimonials">Clients</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a href="#contact" class="nav-cta">Hire Me</a>
-  </nav>
-
-  <!-- ─── HERO ─────────────────────────────────────────────── -->
-  <section id="hero">
-    <div class="hero-left">
-      <p class="hero-eyebrow">Web Designer & Developer</p>
-      <h1 class="hero-h1">Crafting<br><em>Digital</em><br>Experiences</h1>
-      <p class="hero-sub">I build pixel-perfect websites and web apps that balance beautiful design with engineering
-        precision — turning complex ideas into elegant digital products.</p>
-      <div class="hero-actions">
-        <a href="#portfolio" class="btn-primary">View My Work</a>
-        <a href="#about" class="btn-ghost">
-          About Me
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 8h10M9 4l4 4-4 4" />
-          </svg>
-        </a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-num">60<span>+</span></div>
-          <div class="stat-label">Projects Done</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">8<span>+</span></div>
-          <div class="stat-label">Years Exp.</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">40<span>+</span></div>
-          <div class="stat-label">Happy Clients</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero-right">
-      <div class="hero-img-wrap">
-        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1000&q=80&fit=crop"
-          alt="Aljune Q working">
-        <div class="hero-img-overlay"></div>
-      </div>
-      <div class="hero-tag">
-        <span class="hero-tag-label">Currently available for</span>
-        <span class="hero-tag-val">Freelance Projects ✦</span>
-      </div>
-    </div>
-
-    <div class="hero-bg-text">ALJUNE</div>
-    <div class="hero-scroll">
-      <div class="scroll-line"></div>
-      Scroll
-    </div>
-  </section>
-
-  <!-- ─── ABOUT ────────────────────────────────────────────── -->
-  <section id="about">
-    <div class="about-img-col reveal">
-      <img class="about-img-main" src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&q=80&fit=crop"
-        alt="Aljune Q portrait">
-      <img class="about-img-accent"
-        src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&q=80&fit=crop" alt="working on code">
-      <div class="about-badge">
-        <span class="about-badge-num">8+</span>
-        <span class="about-badge-text">Years of<br>Experience</span>
-      </div>
-    </div>
-
-    <div class="about-right">
-      <p class="section-label reveal">About Me</p>
-      <h2 class="section-h2 reveal reveal-delay-1">Designing with <em>purpose</em>,<br>building with <em>precision</em>
-      </h2>
-      <p class="about-desc reveal reveal-delay-2">Hey, I'm Aljune Quiñones — a creative web and UI/UX designer
-        passionate about turning complex ideas into beautiful, intuitive digital products. With over 8 years of industry
-        experience, I've helped startups, agencies, and some companies craft interfaces that users genuinely love. My
-        work sits at the intersection of design craft and business impact — every pixel serves a purpose, and every
-        interaction tells a story.</p>
-
-      <div class="about-skills reveal reveal-delay-2">
-        <span class="skill-tag">UI / UX Design</span>
-        <span class="skill-tag">Web Development</span>
-        <span class="skill-tag">React & Next.js</span>
-        <span class="skill-tag">Figma</span>
-        <span class="skill-tag">Node.js</span>
-        <span class="skill-tag">Branding</span>
-        <span class="skill-tag">Motion Design</span>
-        <span class="skill-tag">Shopify</span>
-      </div>
-
-      <p class="section-label reveal reveal-delay-3">Toolkit</p>
-      <div class="about-tools-row reveal reveal-delay-3">
-        <div class="tool-item">
-          <div class="tool-icon">🎨</div><span class="tool-name">Figma</span>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon">⚛️</div><span class="tool-name">React</span>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon">▲</div><span class="tool-name">Next.js</span>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon">🟢</div><span class="tool-name">Node</span>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon">🎭</div><span class="tool-name">Framer</span>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon">☁️</div><span class="tool-name">Vercel</span>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon">🛒</div><span class="tool-name">Shopify</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── PORTFOLIO ─────────────────────────────────────────── -->
-  <section id="portfolio">
-    <div class="portfolio-header reveal">
-      <div>
-        <p class="section-label">Selected Work</p>
-        <h2 class="section-h2">Recent <em>Projects</em></h2>
-      </div>
-      <div class="portfolio-filter">
-        <button class="filter-btn active">All</button>
-        <button class="filter-btn">Design</button>
-        <button class="filter-btn">Dev</button>
-        <button class="filter-btn">Branding</button>
-      </div>
-    </div>
-
-    <div class="portfolio-grid">
-
-      <div class="proj-card reveal">
-        <div class="proj-img-wrap">
-          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80&fit=crop"
-            alt="E-Commerce Platform">
-        </div>
-        <div class="proj-overlay"><span class="proj-overlay-text">View Project</span></div>
-        <div class="proj-info">
-          <div class="proj-meta">
-            <p class="proj-cat">Web Design & Dev</p>
-            <p class="proj-name">LuxeCart — E-Commerce Platform</p>
-          </div>
-          <div class="proj-arrow">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 13L13 3M13 3H6M13 3v7" />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="proj-card reveal reveal-delay-1">
-        <div class="proj-img-wrap">
-          <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80&fit=crop" alt="SaaS Dashboard">
-        </div>
-        <div class="proj-overlay"><span class="proj-overlay-text">View Project</span></div>
-        <div class="proj-info">
-          <div class="proj-meta">
-            <p class="proj-cat">App Development</p>
-            <p class="proj-name">FlowMetrics SaaS Dashboard</p>
-          </div>
-          <div class="proj-arrow">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 13L13 3M13 3H6M13 3v7" />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="proj-card reveal">
-        <div class="proj-img-wrap">
-          <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&q=80&fit=crop" alt="Brand Identity">
-        </div>
-        <div class="proj-overlay"><span class="proj-overlay-text">View Project</span></div>
-        <div class="proj-info">
-          <div class="proj-meta">
-            <p class="proj-cat">Branding</p>
-            <p class="proj-name">Nōvus Brand Identity</p>
-          </div>
-          <div class="proj-arrow">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 13L13 3M13 3H6M13 3v7" />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="proj-card reveal reveal-delay-1">
-        <div class="proj-img-wrap">
-          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&q=80&fit=crop"
-            alt="Corporate Website">
-        </div>
-        <div class="proj-overlay"><span class="proj-overlay-text">View Project</span></div>
-        <div class="proj-info">
-          <div class="proj-meta">
-            <p class="proj-cat">Web Design</p>
-            <p class="proj-name">Archispace Agency Site</p>
-          </div>
-          <div class="proj-arrow">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 13L13 3M13 3H6M13 3v7" />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="proj-card reveal reveal-delay-2">
-        <div class="proj-img-wrap">
-          <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&q=80&fit=crop"
-            alt="Mobile App UI">
-        </div>
-        <div class="proj-overlay"><span class="proj-overlay-text">View Project</span></div>
-        <div class="proj-info">
-          <div class="proj-meta">
-            <p class="proj-cat">UI Design & Dev</p>
-            <p class="proj-name">Zenith Mobile App</p>
-          </div>
-          <div class="proj-arrow">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 13L13 3M13 3H6M13 3v7" />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ─── TESTIMONIALS ──────────────────────────────────────── -->
-  <section id="testimonials">
-    <p class="section-label reveal">Client Testimonials</p>
-    <h2 class="section-h2 reveal reveal-delay-1">What clients <em>say</em></h2>
-
-    <div class="testi-grid">
-
-      <div class="testi-card reveal">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-quote">"Aljune completely transformed our online presence. The new website is not only visually
-          stunning but our conversion rate went up by 47% in the first month. He understood our brand better than we
-          did."</p>
-        <div class="testi-author">
-          <img class="testi-avatar"
-            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&q=80&fit=crop&crop=face"
-            alt="Sarah Chen">
-          <div>
-            <p class="testi-name">Sarah Chen</p>
-            <p class="testi-role">CEO, LuxeCart Inc.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="testi-card reveal reveal-delay-1">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-quote">"Working with Aljune was seamless from start to finish. He delivered our SaaS dashboard
-          ahead of schedule and the UX is something our users consistently compliment. Truly world-class work."</p>
-        <div class="testi-author">
-          <img class="testi-avatar"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&q=80&fit=crop&crop=face"
-            alt="Marcus Reed">
-          <div>
-            <p class="testi-name">Marcus Reed</p>
-            <p class="testi-role">CTO, FlowMetrics</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="testi-card reveal reveal-delay-2">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-quote">"The branding and website Aljune created for us positioned us as a premium studio
-          overnight. Clients walk in and say they chose us because of our website. That says everything."</p>
-        <div class="testi-author">
-          <img class="testi-avatar"
-            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&q=80&fit=crop&crop=face"
-            alt="Isabella Torres">
-          <div>
-            <p class="testi-name">Isabella Torres</p>
-            <p class="testi-role">Founder, Nōvus Studio</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ─── CONTACT ───────────────────────────────────────────── -->
-  <section id="contact">
-    <div class="contact-grid">
-      <div class="contact-left">
-        <p class="section-label reveal">Get In Touch</p>
-        <h2 class="section-h2 reveal reveal-delay-1">Let's build something <em>great</em></h2>
-        <p class="contact-desc reveal reveal-delay-2">Have a project in mind? Whether it's a new website, a full web
-          app, or a rebrand, I'd love to hear about it. Fill out the form and I'll get back to you within 24 hours.</p>
-
-        <div class="contact-info-list reveal reveal-delay-3">
-          <div class="contact-info-item">
-            <div class="contact-icon">📧</div>
-            <div class="contact-info-text">
-              <p class="contact-info-label">Email</p>
-              <p class="contact-info-val">junaxdmly@gmail.com</p>
-            </div>
-          </div>
-          <div class="contact-info-item">
-            <div class="contact-icon">📍</div>
-            <div class="contact-info-text">
-              <p class="contact-info-label">Location</p>
-              <p class="contact-info-val">Ozamiz City, Philippines</p>
-            </div>
-          </div>
-          <div class="contact-info-item">
-            <div class="contact-icon">⏱</div>
-            <div class="contact-info-text">
-              <p class="contact-info-label">Response Time</p>
-              <p class="contact-info-val">Within 24 hours</p>
-            </div>
-          </div>
-          <div class="contact-info-item">
-            <div class="contact-icon">🟢</div>
-            <div class="contact-info-text">
-              <p class="contact-info-label">Availability</p>
-              <p class="contact-info-val">Open for projects</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="reveal reveal-delay-1">
-        <form class="contact-form" onsubmit="handleSubmit(event)">
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">First Name</label>
-              <input class="form-input" type="text" placeholder="Juan">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Last Name</label>
-              <input class="form-input" type="text" placeholder="Dela Cruz">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Email Address</label>
-            <input class="form-input" type="email" placeholder="juan@company.com">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Project Type</label>
-            <select class="form-select">
-              <option value="">Select a service</option>
-              <option>Website Design</option>
-              <option>Web App Development</option>
-              <option>Brand Identity</option>
-              <option>UI/UX Design</option>
-              <option>E-Commerce</option>
-              <option>Full Project (Design + Dev)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Tell me about your project</label>
-            <textarea class="form-textarea" placeholder="Describe your project, goals, timeline..."></textarea>
-          </div>
-          <!-- ─── BUDGET ───────────────────────────────────────────── 
-          <p class="quote-header">💰 Estimated Budget</p>
-          <div class="budget-row">
-            <div class="budget-opt"><input type="radio" name="budget" id="b1" value="Under $500"><label for="b1">Under
-                $500</label></div>
-            <div class="budget-opt"><input type="radio" name="budget" id="b2" value="$500–2K" checked><label
-                for="b2">$500–2K</label></div>
-            <div class="budget-opt"><input type="radio" name="budget" id="b3" value="$2K–5K"><label
-                for="b3">$2K–5K</label></div>
-            <div class="budget-opt"><input type="radio" name="budget" id="b4" value="$5K+"><label for="b4">$5K+</label>
-            </div>
-          </div> 
-          -->
-
-          <button type="submit" class="btn-submit">Send Message →</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── FOOTER ────────────────────────────────────────────── -->
-  <footer>
-    <a href="#hero" class="footer-logo">ALJUNE<span>.</span>Q</a>
-    <p class="footer-copy">© 2017 Aljune.Q | All rights reserved.</p>
-    <div class="footer-social">
-      <a class="social-btn" href="#" title="Dribbble">🏀</a>
-      <a class="social-btn" href="#" title="Behance">𝐵</a>
-      <a class="social-btn" href="#" title="LinkedIn">in</a>
-      <a class="social-btn" href="#" title="GitHub">⌥</a>
-    </div>
-  </footer>
-
-  <!-- PORTFOLIO DETAIL MODAL -->
-  <div class="modal-overlay" id="projectModal">
-    <div class="modal-container">
-      <button class="modal-close" id="modalCloseBtn" aria-label="Close modal">✕</button>
-      <div class="modal-content">
-        <div class="modal-media">
-          <img id="modalImage" src="" alt="Project Image">
-        </div>
-        <div class="modal-body">
-          <span class="modal-cat" id="modalCat">Category</span>
-          <h3 class="modal-title" id="modalTitle">Project Title</h3>
-          <p class="modal-desc" id="modalDesc">Detailed description goes here...</p>
-          <div class="modal-tags" id="modalTags">
-            <!-- Dynamic Tags -->
-          </div>
-          <a href="#" class="btn-primary modal-link" id="modalLink" target="_blank" rel="noopener noreferrer">Visit
-            Project</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    /* ─── CURSOR ──────────────────────── */
-    const cursor = document.getElementById('cursor');
-    const cursorRing = document.getElementById('cursorRing');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    function animCursor() {
-      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-      rx += (mx - rx) * .14; ry += (my - ry) * .14;
-      cursorRing.style.left = rx + 'px'; cursorRing.style.top = ry + 'px';
-      requestAnimationFrame(animCursor);
-    }
-    animCursor();
-
-    // Custom cursor hover styling using event delegation
-    document.addEventListener('mouseover', e => {
-      const target = e.target.closest && e.target.closest('a, button, .proj-card, .testi-card, .modal-close, .budget-opt label');
-      if (target) {
-        cursor.style.width = '18px'; cursor.style.height = '18px';
-        cursorRing.style.width = '54px'; cursorRing.style.height = '54px';
-        cursorRing.style.opacity = '.4';
-      }
-    });
-    document.addEventListener('mouseout', e => {
-      const target = e.target.closest && e.target.closest('a, button, .proj-card, .testi-card, .modal-close, .budget-opt label');
-      if (target) {
-        cursor.style.width = '10px'; cursor.style.height = '10px';
-        cursorRing.style.width = '36px'; cursorRing.style.height = '36px';
-        cursorRing.style.opacity = '.7';
-      }
-    });
-
-    /* ─── LOADER BEHAVIOR ──────────────── */
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        const loader = document.getElementById('loader');
-        if (loader) {
-          loader.classList.add('loaded');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALJUNE.Q — Creative Web & UI/UX Designer</title>
+    <!-- Favicon Concept -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23050507' stroke='%23f59e0b' stroke-width='6'/%3E%3Ctext x='50%25' y='58%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='32' fill='%23ffffff'%3EAQ%3C/text%3E%3C/svg%3E">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js for interactive UI state management -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                        mono: ['Space Grotesk', 'monospace'],
+                    },
+                    colors: {
+                        zinc: {
+                            950: '#030305',
+                        },
+                        amber: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 16s linear infinite',
+                    }
+                }
+            }
         }
-        document.body.classList.remove('loading');
-      }, 2200);
-    });
+    </script>
+    <style>
+        /* Custom Premium Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030305;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #18181b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #27272a;
+        }
 
-    /* ─── PORTFOLIO DETAIL MODAL ───────── */
-    const projectData = [
-      {
-        name: "LuxeCart — E-Commerce Platform",
-        cat: "Web Design & Dev",
-        img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80&fit=crop",
-        desc: "LuxeCart is an ultra-premium boutique e-commerce application tailor-made for high-end luxury fashion brands. Featuring fluid micro-interactions, high-definition image galleries, customized content management integrations, and a streamlined, secure one-click checkout powered by Stripe. Engineered with Next.js for blazing fast performance and optimized SEO.",
-        tags: ["Next.js", "Stripe", "Framer Motion", "Tailwind CSS"],
-        link: "https://luxecart.demo"
-      },
-      {
-        name: "FlowMetrics SaaS Dashboard",
-        cat: "App Development",
-        img: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80&fit=crop",
-        desc: "FlowMetrics is a state-of-the-art SaaS analytics dashboard designed to visualize massive data streams in real-time. It leverages robust WebSocket connections to feed live telemetry data into dynamic, customizable D3 charts. The interface features interactive filtering, automated report builder, and robust user role access controls.",
-        tags: ["React", "D3.js", "Node.js", "WebSockets"],
-        link: "https://flowmetrics.demo"
-      },
-      {
-        name: "Nōvus Brand Identity",
-        cat: "Branding",
-        img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&q=80&fit=crop",
-        desc: "A complete visual identity overhaul for Nōvus, a boutique creative agency. This project establishes a minimalistic yet powerful brand signature, detailing color guidelines, a custom serif typography scheme, print collateral designs, and digital brand patterns. Created to project a premium market position that attracts enterprise-level clientele.",
-        tags: ["Figma", "Branding", "Typography", "Art Direction"],
-        link: "https://novus.demo"
-      },
-      {
-        name: "Archispace Agency Site",
-        cat: "Web Design",
-        img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&q=80&fit=crop",
-        desc: "Archispace is an interactive, immersive portfolio site for a modern architectural firm. The site uses GSAP scroll animations and subtle WebGL shaders to present structural designs as living digital artwork. Focus was placed on structural symmetry, layout hierarchy, and minimal page noise to complement the client's design philosophy.",
-        tags: ["HTML5 / CSS3", "GSAP", "WebGL", "ScrollTrigger"],
-        link: "https://archispace.demo"
-      },
-      {
-        name: "Zenith Mobile App",
-        cat: "UI Design & Dev",
-        img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&q=80&fit=crop",
-        desc: "Zenith is a clean, minimal habit-tracking and mindfulness mobile app designed to help users establish positive routines. Built around a dark-mode first design system, it implements fluid gesture animations, goal visualization charts, and offline-first state synchronization. The design emphasizes tranquility and clarity to keep users focused on their personal progress.",
-        tags: ["Figma", "React Native", "Expo", "Redux Toolkit"],
-        link: "https://zenith.demo"
-      }
-    ];
+        /* Ambient Grain Overlay Effect */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.025'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
 
-    const projCards = document.querySelectorAll('.proj-card');
-    const modal = document.getElementById('projectModal');
-    const modalImg = document.getElementById('modalImage');
-    const modalCat = document.getElementById('modalCat');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDesc = document.getElementById('modalDesc');
-    const modalTags = document.getElementById('modalTags');
-    const modalLink = document.getElementById('modalLink');
-    const modalClose = document.getElementById('modalCloseBtn');
+        /* Text selection glow */
+        ::selection {
+            background-color: rgba(245, 158, 11, 0.25);
+            color: #ffffff;
+        }
 
-    projCards.forEach((card, index) => {
-      card.addEventListener('click', () => {
-        const data = projectData[index];
-        if (!data) return;
+        /* Subtle parallax ambient blur */
+        .glow-orb {
+            filter: blur(140px);
+            opacity: 0.1;
+            pointer-events: none;
+            will-change: transform;
+        }
+        
+        /* Modern Underline Transition */
+        .hover-underline {
+            position: relative;
+        }
+        .hover-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: #f59e0b;
+            transform-origin: bottom right;
+            transition: transform 0.4s ease-out;
+        }
+        .hover-underline:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
 
-        modalImg.src = data.img;
-        modalImg.alt = data.name;
-        modalCat.textContent = data.cat;
-        modalTitle.textContent = data.name;
-        modalDesc.textContent = data.desc;
+        /* Cinematic entrance transition for page content */
+        .cinematic-entry {
+            animation: cinematicFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            will-change: transform, opacity;
+        }
+        @keyframes cinematicFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.99);
+                filter: blur(8px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans antialiased selection:bg-amber-500/25 selection:text-white overflow-x-hidden"
+      x-data="{ 
+         scrolled: false, 
+         activeFilter: 'All',
+         currentProject: null,
+         googleAppsScriptUrl: '', 
+         projects: [
+            {
+               id: 1,
+               title: 'Nexis Enterprise Suite',
+               category: 'Dashboard Design',
+               tags: ['Dashboard Design', 'UI/UX Design'],
+               year: '2026',
+               image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
+               description: 'A comprehensive, unified operation center designed to manage complex global supply-chain analytics. It brings clarity to big data structures using custom responsive widgets and high-contrast dark visualizations.',
+               role: 'Information Architect & Lead UI Designer',
+               outcome: 'Helped reduce analytical report compilation times by 40% across client business teams.'
+            },
+            {
+               id: 2,
+               title: 'Veloce Hypercar Atelier',
+               category: 'Web Design',
+               tags: ['Web Design', 'UI/UX Design', 'Branding'],
+               year: '2025',
+               image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&q=80&w=800',
+               description: 'The premier digital showcase launchpad built for electric performance vehicles. Features highly fluid micro-animations, physical scrolling interactions, and clean layout patterns.',
+               role: 'UI/UX Designer & Prototyper',
+               outcome: 'Drove unprecedented engagement levels, contributing to over 3.4M organic site views during the launch cycle.'
+            },
+            {
+               id: 3,
+               title: 'Automation Engine',
+               category: 'Google Apps Script',
+               tags: ['Google Apps Script', 'Web Application'],
+               year: '2026',
+               image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=800',
+               description: 'A fully automated client reporting platform that extracts, structures, and sends personalized performance metrics directly from Google Sheets to clients via customized HTML email templates.',
+               role: 'Full Stack Developer',
+               outcome: 'Replaced manual administrative reporting steps entirely, saving client teams roughly 15 hours each week.'
+            },
+            {
+               id: 4,
+               title: 'Aura Spatial Systems',
+               category: 'UI/UX Design',
+               tags: ['UI/UX Design', 'Web Application'],
+               year: '2026',
+               image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800',
+               description: 'An immersive digital design sandbox layout for high-end acoustic arrays. Built with intuitive drag-and-drop interactions and pixel-perfect UI elements.',
+               role: 'Lead Visual & UX Designer',
+               outcome: 'Successfully tested by leading architectural planners for responsive, cross-platform audio plotting.'
+            },
+            {
+               id: 5,
+               title: 'Symmetry Design System',
+               category: 'Branding',
+               tags: ['Branding', 'UI/UX Design'],
+               year: '2025',
+               image: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&q=80&w=800',
+               description: 'An extensive design system containing hundreds of highly optimized visual components, design tokens, and systematic templates to accelerate organizational consistency.',
+               role: 'Systems Designer & Brand Strategist',
+               outcome: 'Unified 4 distinct product divisions onto a single structural layout design framework.'
+            },
+            {
+               id: 6,
+               title: 'Portal Cloud Web Application',
+               category: 'Web Application',
+               tags: ['Web Application', 'Dashboard Design', 'Google Apps Script'],
+               year: '2026',
+               image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800',
+               description: 'A light, high-performance cloud storage web app leveraging Google Drive storage endpoints as backends managed via intuitive Apps Script endpoints.',
+               role: 'Lead Front-End & Integration Architect',
+               outcome: 'Delivered an ultra-secure and lightweight asset portal that operates with zero separate hosting expenses.'
+            }
+         ],
+         contactName: '',
+         contactEmail: '',
+         companyName: '',
+         projectType: 'Website Design',
+         contactMessage: '',
+         estimatedBudget: 'Under $500',
+         formSubmitted: false,
+         isSubmitting: false,
+         submitError: false,
+         
+         // Custom ultra-smooth kinetic cubic easing scroll method
+         scrollTo(targetId) {
+            const target = document.querySelector(targetId);
+            if (!target) return;
+            
+            // Adjust offsets based on floating sticky header dimensions
+            const headerOffset = 90; 
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 1000; // Controlled deceleration timing
+            let start = null;
 
-        modalTags.innerHTML = '';
-        data.tags.forEach(tag => {
-          const span = document.createElement('span');
-          span.className = 'modal-tag';
-          span.textContent = tag;
-          modalTags.appendChild(span);
+            // Fluid deceleration easing equation
+            function easeInOutCubic(t, b, c, d) {
+                t /= d/2;
+                if (t < 1) return c/2*t*t*t + b;
+                t -= 2;
+                return c/2*(t*t*t + 2) + b;
+            }
+
+            function animationStep(currentTime) {
+                if (start === null) start = currentTime;
+                const timeElapsed = currentTime - start;
+                const runValue = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+                window.scrollTo(0, runValue);
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animationStep);
+                } else {
+                    window.scrollTo(0, targetPosition);
+                }
+            }
+            requestAnimationFrame(animationStep);
+         },
+         
+         submitQuoteForm() {
+            if (!this.contactName || !this.contactEmail || !this.contactMessage) return;
+            this.isSubmitting = true;
+            this.submitError = false;
+
+            const formData = {
+                timestamp: new Date().toISOString(),
+                fullName: this.contactName,
+                email: this.contactEmail,
+                companyName: this.companyName || 'Not Provided',
+                projectType: this.projectType,
+                description: this.contactMessage,
+                budget: this.estimatedBudget
+            };
+
+            if (this.googleAppsScriptUrl) {
+                fetch(this.googleAppsScriptUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                })
+                .then(() => {
+                    this.isSubmitting = false;
+                    this.formSubmitted = true;
+                    this.clearForm();
+                })
+                .catch(err => {
+                    console.error('Apps Script Submission Error:', err);
+                    this.submitError = true;
+                    this.isSubmitting = false;
+                });
+            } else {
+                setTimeout(() => {
+                    this.isSubmitting = false;
+                    this.formSubmitted = true;
+                    this.clearForm();
+                    console.log('Form saved locally (Apps Script payload mock):', formData);
+                }, 1200);
+            }
+         },
+         clearForm() {
+            this.contactName = '';
+            this.contactEmail = '';
+            this.companyName = '';
+            this.contactMessage = '';
+         }
+      }"
+      @scroll.window="scrolled = (window.pageYOffset > 50)"
+>
+
+    <!-- Ambient Grain/Noise layer -->
+    <div class="grain-overlay"></div>
+
+    <!-- Glowing Background Orbs (Premium Cinematic Depth) -->
+    <div class="fixed top-[-10%] left-[5%] w-[45vw] h-[45vw] bg-amber-500/5 rounded-full glow-orb"></div>
+    <div class="fixed bottom-[15%] right-[5%] w-[50vw] h-[50vw] bg-zinc-900/20 rounded-full glow-orb"></div>
+
+    <!-- ================= SECTION: FULL-WIDTH FLOATING NAVIGATION ================= -->
+    <div class="fixed top-0 left-0 w-full z-50">
+        <header 
+            class="w-full border-b border-zinc-900/40 bg-zinc-950/70 backdrop-blur-md px-6 md:px-12 py-5 flex items-center justify-between transition-all duration-500"
+            :class="scrolled ? 'border-amber-500/10 bg-zinc-950/95 py-4 shadow-xl shadow-black/40' : ''"
+        >
+            <!-- Brand Logo -->
+            <a @click.prevent="scrollTo('#')" href="#" class="group flex items-center gap-3">
+                <div class="relative w-8 h-8 flex items-center justify-center">
+                    <span class="absolute inset-0 bg-amber-500/20 rounded-full scale-75 group-hover:scale-100 transition-transform duration-500"></span>
+                    <span class="w-3.5 h-3.5 bg-amber-500 rounded-full transition-transform duration-500 group-hover:rotate-180"></span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-display font-black text-lg tracking-wider text-white">ALJUNE.Q</span>
+                    <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-[0.2em] -mt-1">PORTFOLIO</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links (Full width sticky structure) -->
+            <nav class="hidden lg:flex items-center gap-8 text-[10px] font-mono tracking-[0.2em] text-zinc-400 uppercase">
+                <a @click.prevent="scrollTo('#showcase')" href="#showcase" class="hover:text-white transition-colors duration-300 hover-underline">01 / WORK</a>
+                <a @click.prevent="scrollTo('#about')" href="#about" class="hover:text-white transition-colors duration-300 hover-underline">02 / PROFILE</a>
+                <a @click.prevent="scrollTo('#services')" href="#services" class="hover:text-white transition-colors duration-300 hover-underline">03 / SERVICES</a>
+                <a @click.prevent="scrollTo('#quote')" href="#quote" class="hover:text-white transition-colors duration-300 hover-underline">04 / DISPATCH</a>
+            </nav>
+
+            <!-- CTA Button -->
+            <div class="flex items-center gap-4">
+                <a 
+                    @click.prevent="scrollTo('#quote')"
+                    href="#quote" 
+                    class="hidden sm:inline-flex items-center gap-2 border border-zinc-800 hover:border-amber-500/50 bg-zinc-900/40 px-5 py-2.5 rounded-full text-xs font-mono tracking-wider transition-all duration-300 hover:bg-zinc-900 text-zinc-300 hover:text-white"
+                >
+                    ESTIMATE BRIEF
+                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-amber-500"></i>
+                </a>
+                
+                <!-- Mobile Menu button -->
+                <button 
+                    @click="document.getElementById('mobile-menu').classList.toggle('hidden')"
+                    class="lg:hidden p-1.5 text-zinc-400 hover:text-white focus:outline-none"
+                    aria-label="Toggle menu"
+                >
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </header>
+    </div>
+
+    <!-- Mobile Navigation Overlay (Sticky compatible) -->
+    <div id="mobile-menu" class="hidden fixed inset-0 z-[100] bg-zinc-950/98 backdrop-blur-xl flex flex-col justify-center items-center p-6">
+        <button 
+            @click="document.getElementById('mobile-menu').classList.add('hidden')"
+            class="absolute top-6 right-6 p-2 text-zinc-400 hover:text-white"
+        >
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <div class="flex flex-col gap-8 text-center text-xl font-display uppercase tracking-widest">
+            <a @click="document.getElementById('mobile-menu').classList.add('hidden'); scrollTo('#showcase')" href="#showcase" class="hover:text-amber-500 transition-colors">01 / WORK</a>
+            <a @click="document.getElementById('mobile-menu').classList.add('hidden'); scrollTo('#about')" href="#about" class="hover:text-amber-500 transition-colors">02 / PROFILE</a>
+            <a @click="document.getElementById('mobile-menu').classList.add('hidden'); scrollTo('#services')" href="#services" class="hover:text-amber-500 transition-colors">03 / SERVICES</a>
+            <a @click="document.getElementById('mobile-menu').classList.add('hidden'); scrollTo('#quote')" href="#quote" class="hover:text-amber-500 transition-colors">04 / REQUEST QUOTE</a>
+        </div>
+        <div class="mt-16 text-center font-mono text-xs text-zinc-600">
+            &copy; 2026 ALJUNE.Q | PORTFOLIO
+        </div>
+    </div>
+
+    <!-- ================= MAIN CINEMATIC ENTRY CONTENT CONTAINER ================= -->
+    <div class="cinematic-entry">
+
+        <!-- ================= SECTION 1: HERO & ATMOSPHERE ================= -->
+        <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-16">
+            
+            <!-- High-Fidelity Cinematic Morphing Curve Lines Backdrop -->
+            <div class="absolute inset-0 z-0 overflow-hidden bg-zinc-950 pointer-events-none">
+                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/80 to-zinc-950/30 z-10"></div>
+                <div class="absolute inset-0 bg-radial-gradient(ellipse_at_center,_var(--tw-gradient-stops)) from-transparent via-zinc-950/65 to-zinc-950 z-10"></div>
+                
+                <canvas id="hero-starfield" class="absolute inset-0 w-full h-full object-cover opacity-90 mix-blend-screen"></canvas>
+            </div>
+
+            <div class="relative z-20 max-w-7xl mx-auto px-6 md:px-12 w-full flex flex-col justify-between min-h-[75vh]">
+                
+                <!-- Ambient Mini Status Header -->
+                <div class="flex items-center gap-2 font-mono text-zinc-500 text-[10px] md:text-xs tracking-[0.25em] uppercase mb-12">
+                    <span class="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse"></span>
+                    <span class="text-white font-medium">AVAILABLE FOR FREELANCE PROJECTS</span>
+                    <span class="text-zinc-700">|</span>
+                    <span>GLOBAL WORKFLOW</span>
+                </div>
+
+                <!-- Core Value Proposition & Bold Headline -->
+                <div class="max-w-5xl">
+                    <h1 class="font-display text-[10vw] sm:text-[8vw] md:text-[6.5vw] lg:text-[4.8vw] font-black leading-[0.9] tracking-tight uppercase text-white mb-8">
+                        CREATIVE WEB & <span class="text-zinc-500 block sm:inline">UI/UX DESIGNER</span>
+                    </h1>
+                    
+                    <p class="font-sans text-base md:text-lg lg:text-xl text-zinc-400 font-light max-w-3xl leading-relaxed mb-12">
+                        I design modern websites and digital experiences that help businesses stand out, engage users, and drive results. Blending cinematic aesthetic layers with high-performance execution.
+                    </p>
+                </div>
+
+                <!-- CTA Row & Kinetic Stats -->
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-12 pt-8 border-t border-zinc-900/80">
+                    <div class="flex flex-wrap items-center gap-4">
+                        <a 
+                            @click.prevent="scrollTo('#showcase')"
+                            href="#showcase" 
+                            class="group relative inline-flex items-center justify-center bg-white hover:bg-amber-500 text-zinc-950 font-mono text-xs uppercase font-bold tracking-widest px-8 py-3.5 rounded-full overflow-hidden transition-all duration-300 shadow-xl shadow-amber-500/5 hover:shadow-amber-500/10"
+                        >
+                            <span class="relative z-10 flex items-center gap-3">
+                                VIEW MY WORK
+                                <i data-lucide="arrow-down" class="w-4 h-4 transition-transform duration-300 group-hover:translate-y-1"></i>
+                            </span>
+                        </a>
+                        
+                        <a 
+                            @click.prevent="scrollTo('#quote')"
+                            href="#quote" 
+                            class="inline-flex items-center gap-3 text-zinc-400 hover:text-white text-xs font-mono uppercase tracking-wider py-3 px-4 hover:bg-zinc-900/50 rounded-lg transition-all duration-300"
+                        >
+                            REQUEST A QUOTE
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-amber-500"></i>
+                        </a>
+                    </div>
+
+                    <!-- Live Performance Metrics -->
+                    <div class="grid grid-cols-3 gap-6 sm:gap-12 text-left font-mono">
+                        <div>
+                            <div class="text-xl md:text-2xl font-bold text-white tracking-tight">8+</div>
+                            <div class="text-[9px] text-zinc-500 uppercase tracking-widest mt-1">Years Exp</div>
+                        </div>
+                        <div>
+                            <div class="text-xl md:text-2xl font-bold text-white tracking-tight">100%</div>
+                            <div class="text-[9px] text-zinc-500 uppercase tracking-widest mt-1">Fluid Rate</div>
+                        </div>
+                        <div>
+                            <div class="text-xl md:text-2xl font-bold text-white tracking-tight">GAS</div>
+                            <div class="text-[9px] text-zinc-500 uppercase tracking-widest mt-1">Sheets Ready</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Sleek Scroll Indicator -->
+            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none z-20">
+                <span class="font-mono text-[9px] text-zinc-600 tracking-[0.3em] uppercase">SCROLL TO ASCEND</span>
+                <div class="w-[1px] h-12 bg-gradient-to-b from-zinc-800 to-transparent relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1/2 bg-amber-500 animate-[bounce_2s_infinite]"></div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 2: PORTFOLIO SHOWCASE ================= -->
+        <section id="showcase" class="relative py-24 md:py-32 border-t border-zinc-900 bg-zinc-950/40">
+            <div class="max-w-7xl mx-auto px-6 md:px-12">
+                
+                <!-- Section Header -->
+                <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-8 mb-16">
+                    <div>
+                        <div class="font-mono text-xs text-amber-500 tracking-[0.3em] uppercase mb-3">FEATURED PORTFOLIO</div>
+                        <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tight">
+                            SELECTED PROJECTS
+                        </h2>
+                        <p class="text-zinc-500 text-xs font-mono mt-2 uppercase tracking-wider">
+                            [ Connected architecture: Dynamic Google Sheets asset sync enabled ]
+                        </p>
+                    </div>
+                    
+                    <!-- Category Filtering Tags -->
+                    <div class="flex flex-wrap gap-2 font-mono text-[10px] sm:text-xs">
+                        <template x-for="category in ['All', 'Web Design', 'UI/UX Design', 'Dashboard Design', 'Google Apps Script', 'Web Application', 'Branding']">
+                            <button 
+                                @click="activeFilter = category"
+                                class="px-4 py-2 rounded-full border transition-all duration-300 whitespace-nowrap"
+                                :class="activeFilter === category 
+                                    ? 'bg-amber-500 text-zinc-950 border-amber-500 font-bold' 
+                                    : 'bg-zinc-900/40 text-zinc-400 border-zinc-800 hover:text-white hover:border-zinc-700'"
+                                x-text="category.toUpperCase()"
+                            ></button>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Showcase Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    <template x-for="project in projects" :key="project.id">
+                        <div 
+                            x-show="activeFilter === 'All' || project.tags.includes(activeFilter)"
+                            x-transition:enter="transition ease-out duration-400"
+                            x-transition:enter-start="opacity-0 translate-y-8"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            class="group relative bg-zinc-900/10 rounded-2xl overflow-hidden border border-zinc-900/80 transition-all duration-400 hover:border-zinc-800 hover:shadow-2xl hover:shadow-amber-500/5 cursor-pointer"
+                            @click="currentProject = project"
+                        >
+                            <!-- Image Container with Cinematic Zooming Overlay -->
+                            <div class="relative aspect-[4/3] w-full overflow-hidden bg-zinc-950">
+                                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-80 z-10"></div>
+                                <div class="absolute inset-0 bg-amber-500/5 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                                
+                                <img 
+                                    :src="project.image" 
+                                    :alt="project.title"
+                                    class="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-500 ease-out filter grayscale hover:grayscale-0"
+                                    loading="lazy"
+                                >
+                                
+                                <!-- Static Floating Badge -->
+                                <div class="absolute top-4 right-4 z-20 bg-zinc-950/80 backdrop-blur-md px-3 py-1 rounded-md text-[10px] font-mono tracking-wider text-zinc-400 border border-zinc-800">
+                                    <span x-text="project.year"></span>
+                                </div>
+
+                                <!-- Visual Play/Details Hover Button -->
+                                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                                    <div class="w-12 h-12 bg-white text-zinc-950 rounded-full flex items-center justify-center shadow-lg transform scale-90 group-hover:scale-100 transition-transform duration-500 ease-out">
+                                        <i data-lucide="plus" class="w-5 h-5"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card Content Information -->
+                            <div class="p-6 relative z-20 bg-zinc-950/90 border-t border-zinc-900/60">
+                                <!-- Tags Row -->
+                                <div class="flex items-center gap-1.5 mb-3 flex-wrap">
+                                    <template x-for="tag in project.tags">
+                                        <span class="text-[9px] font-mono tracking-widest text-amber-500 uppercase bg-amber-500/5 px-2 py-0.5 rounded border border-amber-500/10" x-text="tag"></span>
+                                    </template>
+                                </div>
+                                
+                                <h3 class="font-display text-lg font-bold text-white group-hover:text-amber-400 transition-colors duration-300" x-text="project.title"></h3>
+                                <p class="text-zinc-400 text-xs mt-2 line-clamp-2 leading-relaxed" x-text="project.description"></p>
+
+                                <!-- View Project Action Anchor -->
+                                <div class="mt-4 pt-4 border-t border-zinc-900/50 flex items-center justify-between text-[11px] font-mono tracking-wider uppercase text-zinc-500 group-hover:text-white transition-colors duration-300">
+                                    <span>VIEW PROJECT SPEC</span>
+                                    <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-600 group-hover:text-amber-500 transition-transform duration-300 group-hover:translate-x-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Case Study / Project Popup Modal -->
+                <template x-if="currentProject">
+                    <div class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 md:p-6 bg-zinc-950/95 backdrop-blur-xl">
+                        <div 
+                            @click.away="currentProject = null" 
+                            class="bg-zinc-900/85 border border-zinc-800 rounded-2xl max-w-4xl w-full overflow-hidden shadow-2xl shadow-black relative"
+                            x-transition:enter="transition ease-out duration-300"
+                            x-transition:enter-start="scale-95 opacity-0"
+                            x-transition:enter-end="scale-100 opacity-100"
+                        >
+                            <!-- Banner image showcase -->
+                            <div class="relative h-64 md:h-80 w-full">
+                                <img :src="currentProject.image" alt="" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>
+                                
+                                <!-- Close button -->
+                                <button 
+                                    @click="currentProject = null" 
+                                    class="absolute top-4 right-4 bg-zinc-950/80 hover:bg-amber-500 hover:text-zinc-950 text-white rounded-full p-2.5 transition-all duration-300 border border-zinc-800 focus:outline-none"
+                                >
+                                    <i data-lucide="x" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+
+                            <!-- Case content info -->
+                            <div class="p-6 md:p-10">
+                                <!-- Category and designation -->
+                                <div class="flex flex-wrap gap-2 items-center mb-4">
+                                    <span class="text-xs font-mono tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded" x-text="currentProject.category"></span>
+                                    <span class="text-zinc-500 text-sm font-mono">// CASE METRICS</span>
+                                </div>
+
+                                <h3 class="text-3xl md:text-4xl font-display font-black text-white uppercase tracking-tight mb-4" x-text="currentProject.title"></h3>
+                                
+                                <p class="text-zinc-300 text-base md:text-lg font-light leading-relaxed mb-8" x-text="currentProject.description"></p>
+
+                                <!-- Detailed breakdown parameters -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-zinc-800/80">
+                                    <div>
+                                        <h4 class="font-mono text-xs tracking-wider uppercase text-zinc-500 mb-2">My Direct Contribution</h4>
+                                        <p class="text-zinc-300 text-sm leading-relaxed" x-text="currentProject.role"></p>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-mono text-xs tracking-wider uppercase text-zinc-500 mb-2">Quantified Outcome</h4>
+                                        <p class="text-zinc-300 text-sm leading-relaxed" x-text="currentProject.outcome"></p>
+                                    </div>
+                                </div>
+
+                                <!-- Technical metadata parameters -->
+                                <div class="mt-10 pt-6 border-t border-zinc-800/60 flex flex-wrap gap-4 items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-xs font-mono text-zinc-500">Integration Platform:</span>
+                                        <div class="flex gap-2">
+                                            <span class="text-[10px] font-mono text-zinc-300 bg-zinc-950 border border-zinc-800 px-2 py-1 rounded">JavaScript</span>
+                                            <span class="text-[10px] font-mono text-zinc-300 bg-zinc-950 border border-zinc-800 px-2 py-1 rounded">REST API</span>
+                                            <span class="text-[10px] font-mono text-zinc-300 bg-zinc-950 border border-zinc-800 px-2 py-1 rounded">GAS Sync ready</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-4">
+                                        <button 
+                                            @click="currentProject = null"
+                                            class="bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs uppercase tracking-wider px-5 py-3 rounded-full transition-all duration-300"
+                                        >
+                                            Close Details
+                                        </button>
+                                        <a 
+                                            @click.prevent="currentProject = null; scrollTo('#quote')"
+                                            href="#quote"
+                                            class="bg-amber-500 hover:bg-amber-600 text-zinc-950 font-mono text-xs uppercase font-bold tracking-wider px-5 py-3 rounded-full transition-all duration-300"
+                                        >
+                                            Inquire Similar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 3: ABOUT ME & EXPERIENCE ================= -->
+        <section id="about" class="relative py-24 md:py-32 bg-zinc-950">
+            <div class="max-w-7xl mx-auto px-6 md:px-12">
+                
+                <!-- Dual-Pane Split Layout Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+                    
+                    <!-- Left Pane: Personal Bio and Vision -->
+                    <div class="space-y-8">
+                        <div class="font-mono text-xs text-amber-500 tracking-[0.3em] uppercase">ABOUT THE DESIGNER</div>
+                        
+                        <h3 class="font-display text-4xl md:text-5xl font-black text-white uppercase tracking-tight leading-none">
+                            Hey, I'm Aljune Quiñones —
+                        </h3>
+                        <h4 class="text-xl md:text-2xl text-zinc-300 font-medium leading-normal">
+                            A creative Web and UI/UX Designer passionate about turning complex ideas into beautiful, intuitive digital products.
+                        </h4>
+                        
+                        <div class="space-y-6 text-zinc-400 font-light leading-relaxed text-base md:text-lg">
+                            <p>
+                                With over <strong class="text-amber-500 font-medium">8 years of industry experience</strong>, I've helped startups, agencies, and companies craft interfaces that users genuinely love and find instantly natural to navigate.
+                            </p>
+                            <p>
+                                My work sits directly at the intersection of professional design craft and genuine business impact. Every pixel serves a definite purpose, and every single digital interaction tells an intuitive story.
+                            </p>
+                        </div>
+
+                        <!-- Highlight Badges Grid -->
+                        <div class="grid grid-cols-2 gap-4 pt-6">
+                            <div class="p-4 rounded-xl bg-zinc-900/10 border border-zinc-900 flex items-center gap-3 hover:border-zinc-800 transition-colors">
+                                <i data-lucide="award" class="w-5 h-5 text-amber-500 shrink-0"></i>
+                                <span class="text-xs font-mono text-zinc-300 uppercase">8+ Years Experience</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-zinc-900/10 border border-zinc-900 flex items-center gap-3 hover:border-zinc-800 transition-colors">
+                                <i data-lucide="layout" class="w-5 h-5 text-amber-500 shrink-0"></i>
+                                <span class="text-xs font-mono text-zinc-300 uppercase">Web Specialist</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-zinc-900/10 border border-zinc-900 flex items-center gap-3 hover:border-zinc-800 transition-colors">
+                                <i data-lucide="fingerprint" class="w-5 h-5 text-amber-500 shrink-0"></i>
+                                <span class="text-xs font-mono text-zinc-300 uppercase">UI/UX Expert</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-zinc-900/10 border border-zinc-900 flex items-center gap-3 hover:border-zinc-800 transition-colors">
+                                <i data-lucide="file-json" class="w-5 h-5 text-amber-500 shrink-0"></i>
+                                <span class="text-xs font-mono text-zinc-300 uppercase">Apps Script Dev</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Pane: Timeline Workflow -->
+                    <div class="space-y-12 lg:pl-6" x-data="{ activeStep: 1 }">
+                        <div>
+                            <div class="font-mono text-xs text-zinc-500 tracking-[0.3em] uppercase mb-3">MY PRODUCTION WORKFLOW</div>
+                            <h3 class="font-display text-3xl font-bold text-white uppercase tracking-tight">THE PATHWAY TO EXCELLENCE</h3>
+                        </div>
+
+                        <!-- Step-by-Step Vertical Progression -->
+                        <div class="space-y-3">
+                            
+                            <!-- Step 1 -->
+                            <div 
+                                @mouseenter="activeStep = 1"
+                                class="p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
+                                :class="activeStep === 1 ? 'bg-zinc-900/50 border-amber-500/50 shadow-lg' : 'bg-zinc-900/10 border-zinc-900 hover:border-zinc-800'"
+                            >
+                                <div class="flex items-start justify-between">
+                                    <div class="flex gap-4">
+                                        <span class="font-mono text-sm text-amber-500 font-bold">01 /</span>
+                                        <div>
+                                            <h4 class="font-display text-base font-bold text-white uppercase tracking-tight">Discovery & Strategy</h4>
+                                            <p class="text-zinc-400 text-xs mt-0.5">Immersing deeply into business goals, functional targets, and project blueprints.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2 -->
+                            <div 
+                                @mouseenter="activeStep = 2"
+                                class="p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
+                                :class="activeStep === 2 ? 'bg-zinc-900/50 border-amber-500/50 shadow-lg' : 'bg-zinc-900/10 border-zinc-900 hover:border-zinc-800'"
+                            >
+                                <div class="flex items-start justify-between">
+                                    <div class="flex gap-4">
+                                        <span class="font-mono text-sm text-amber-500 font-bold">02 /</span>
+                                        <div>
+                                            <h4 class="font-display text-base font-bold text-white uppercase tracking-tight">Research & Planning</h4>
+                                            <p class="text-zinc-400 text-xs mt-0.5">Analyzing competitive benchmarks, industry trends, and strategic architecture mapping.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 3 -->
+                            <div 
+                                @mouseenter="activeStep = 3"
+                                class="p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
+                                :class="activeStep === 3 ? 'bg-zinc-900/50 border-amber-500/50 shadow-lg' : 'bg-zinc-900/10 border-zinc-900 hover:border-zinc-800'"
+                            >
+                                <div class="flex items-start justify-between">
+                                    <div class="flex gap-4">
+                                        <span class="font-mono text-sm text-amber-500 font-bold">03 /</span>
+                                        <div>
+                                            <h4 class="font-display text-base font-bold text-white uppercase tracking-tight">Wireframing & UX Design</h4>
+                                            <p class="text-zinc-400 text-xs mt-0.5">Plotting user journeys and interaction nodes prior to visual styling applications.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 4 -->
+                            <div 
+                                @mouseenter="activeStep = 4"
+                                class="p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
+                                :class="activeStep === 4 ? 'bg-zinc-900/50 border-amber-500/50 shadow-lg' : 'bg-zinc-900/10 border-zinc-900 hover:border-zinc-800'"
+                            >
+                                <div class="flex items-start justify-between">
+                                    <div class="flex gap-4">
+                                        <span class="font-mono text-sm text-amber-500 font-bold">04 /</span>
+                                        <div>
+                                            <h4 class="font-display text-base font-bold text-white uppercase tracking-tight">UI Design & Prototyping</h4>
+                                            <p class="text-zinc-400 text-xs mt-0.5">Forging detailed high-fidelity layouts, micro-animations, and complete interactive blueprints.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 5 -->
+                            <div 
+                                @mouseenter="activeStep = 5"
+                                class="p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
+                                :class="activeStep === 5 ? 'bg-zinc-900/50 border-amber-500/50 shadow-lg' : 'bg-zinc-900/10 border-zinc-900 hover:border-zinc-800'"
+                            >
+                                <div class="flex items-start justify-between">
+                                    <div class="flex gap-4">
+                                        <span class="font-mono text-sm text-amber-500 font-bold">05 /</span>
+                                        <div>
+                                            <h4 class="font-display text-base font-bold text-white uppercase tracking-tight">Development & Testing</h4>
+                                            <p class="text-zinc-400 text-xs mt-0.5">Writing organized, responsive web code alongside Google Apps Script integration verification.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 6 -->
+                            <div 
+                                @mouseenter="activeStep = 6"
+                                class="p-4 rounded-2xl border transition-all duration-300 cursor-pointer text-left"
+                                :class="activeStep === 6 ? 'bg-zinc-900/50 border-amber-500/50 shadow-lg' : 'bg-zinc-900/10 border-zinc-900 hover:border-zinc-800'"
+                            >
+                                <div class="flex items-start justify-between">
+                                    <div class="flex gap-4">
+                                        <span class="font-mono text-sm text-amber-500 font-bold">06 /</span>
+                                        <div>
+                                            <h4 class="font-display text-base font-bold text-white uppercase tracking-tight">Launch & Optimization</h4>
+                                            <p class="text-zinc-400 text-xs mt-0.5">Deploying to secure staging servers, verifying performance speed scores, and launching.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 4: SERVICES ================= -->
+        <section id="services" class="relative py-24 md:py-32 bg-zinc-950/40 border-t border-zinc-900">
+            <div class="max-w-7xl mx-auto px-6 md:px-12">
+                
+                <div class="mb-16 text-center md:text-left">
+                    <span class="font-mono text-xs text-amber-500 tracking-[0.3em] uppercase block mb-3">WHAT I DELIVER</span>
+                    <h3 class="font-display text-4xl md:text-5xl font-black text-white uppercase tracking-tight">PROFESSIONAL SERVICE DESIGN</h3>
+                    <p class="text-zinc-400 mt-2 text-sm max-w-xl font-light">Custom digital strategies focused on elite performance, accessibility, and clean interface structures.</p>
+                </div>
+
+                <!-- Services Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    
+                    <!-- Service 1 -->
+                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
+                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="chrome" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">Website Design</h4>
+                        <p class="text-zinc-400 text-xs leading-relaxed">Elegant, professional custom websites optimized specifically for maximum speed, clear communication, and conversion results.</p>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
+                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="smartphone" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">UI/UX Design</h4>
+                        <p class="text-zinc-400 text-xs leading-relaxed">Deeply strategic user journeys mapped via high fidelity wireframes and user research targeting effortless usability.</p>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
+                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="target" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">Landing Page Design</h4>
+                        <p class="text-zinc-400 text-xs leading-relaxed">High-impact single scroll experiences built to grab instant user interest and generate direct action funnels.</p>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
+                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="layout-grid" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">Dashboard Design</h4>
+                        <p class="text-zinc-400 text-xs leading-relaxed">Organized multi-view operations consoles displaying critical complex data insights cleanly on dark modes.</p>
+                    </div>
+
+                    <!-- Service 5 -->
+                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
+                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="database" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">Apps Script Web Apps</h4>
+                        <p class="text-zinc-400 text-xs leading-relaxed">Custom light applications powered directly inside the Google Workspace ecosystem for seamless workflows.</p>
+                    </div>
+
+                    <!-- Service 6 -->
+                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
+                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">Website Redesign</h4>
+                        <p class="text-zinc-400 text-xs leading-relaxed">Transform outdated existing platforms into high performance, modern, visual showpieces aligned with contemporary standards.</p>
+                    </div>
+
+                    <!-- Service 7 -->
+                    <div class="p-8 rounded-2xl bg-zinc-900/10 border border-zinc-900/80 transition-all duration-300 hover:border-amber-500/40 hover:bg-zinc-900/30 group">
+                        <div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="component" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="font-display text-lg font-bold text-white uppercase mb-2">Design Systems</h4>
+                        <p class="text-zinc-400 text-xs leading-relaxed">Comprehensive interactive component sets ensuring perfect layout uniformity across entire scaling team departments.</p>
+                    </div>
+
+                    <!-- Service 8 (Value proposition highlight) -->
+                    <div class="p-8 rounded-2xl bg-amber-500/5 border border-amber-500/20 flex flex-col justify-between">
+                        <div>
+                            <span class="font-mono text-[9px] text-amber-500 tracking-widest uppercase">PHILIPPINES INITIATIVE</span>
+                            <h4 class="font-display text-base font-bold text-white uppercase mt-2">NEED CUSTOM INTEGRATION?</h4>
+                            <p class="text-zinc-400 text-xs mt-1">Let's build reliable cloud data connections using automated spreadsheet workflows.</p>
+                        </div>
+                        <a @click.prevent="scrollTo('#quote')" href="#quote" class="mt-4 inline-flex items-center gap-2 text-xs text-white font-mono uppercase hover:text-amber-500 transition-colors">
+                            START DISPATCH <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 5: REQUEST A QUOTE (CONTACT) ================= -->
+        <section id="quote" class="relative py-24 md:py-32 bg-zinc-950 border-t border-zinc-900">
+            <div class="max-w-7xl mx-auto px-6 md:px-12">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                    
+                    <!-- Left Side: Brand Inquiries & Instructions -->
+                    <div class="lg:col-span-5 space-y-8">
+                        <div>
+                            <div class="font-mono text-xs text-amber-500 tracking-[0.3em] uppercase mb-3">SECURE YOUR ESTIMATE</div>
+                            <h3 class="font-display text-4xl md:text-5xl font-black text-white uppercase tracking-tight leading-none">
+                                REQUEST A DETAILED QUOTE.
+                            </h3>
+                        </div>
+
+                        <p class="text-zinc-400 text-base md:text-lg leading-relaxed font-light">
+                            Every submission initiates a complete review of your functional needs. Our form setup is fully integrated to record automatically inside a centralized spreadsheet for instantaneous review.
+                        </p>
+
+                        <!-- Apps Script Custom Setup Hint for Aljune -->
+                        <div class="p-5 rounded-xl bg-zinc-900/40 border border-zinc-900 text-xs space-y-3">
+                            <div class="flex items-center gap-2 text-amber-400 font-mono">
+                                <i data-lucide="terminal" class="w-4 h-4"></i>
+                                <span>APPS SCRIPT READY</span>
+                            </div>
+                            <p class="text-zinc-400 leading-relaxed">
+                                Aljune: Easily receive submissions inside your custom Google Sheets! Simply paste your deployed Web App URL in the input container below to link the backend live.
+                            </p>
+                            <input 
+                                type="text" 
+                                x-model="googleAppsScriptUrl" 
+                                placeholder="https://script.google.com/macros/s/.../exec"
+                                class="w-full bg-zinc-950 border border-zinc-800 text-zinc-300 font-mono text-[11px] p-2 rounded focus:outline-none focus:border-amber-500"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Clean Form Module -->
+                    <div class="lg:col-span-7 bg-zinc-900/30 border border-zinc-900 p-8 md:p-12 rounded-2xl relative overflow-hidden">
+                        <div class="absolute -top-12 -right-12 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+                        <!-- Quote Submission form -->
+                        <div x-show="!formSubmitted" class="space-y-6">
+                            <h4 class="font-display text-xl font-bold text-white uppercase tracking-tight">PROJECT REQUISITION FORM</h4>
+                            
+                            <form @submit.prevent="submitQuoteForm()" class="space-y-8">
+                                <!-- Full Name -->
+                                <div class="relative z-0 w-full group">
+                                    <input 
+                                        type="text" 
+                                        name="full_name" 
+                                        id="full_name" 
+                                        x-model="contactName"
+                                        class="block py-3 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-zinc-800 appearance-none focus:outline-none focus:ring-0 focus:border-amber-500 peer" 
+                                        placeholder=" " 
+                                        required 
+                                    />
+                                    <label 
+                                        for="full_name" 
+                                        class="peer-focus:font-medium absolute text-sm text-zinc-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-amber-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                                    >
+                                        Full Name *
+                                    </label>
+                                </div>
+
+                                <!-- Email Address -->
+                                <div class="relative z-0 w-full group">
+                                    <input 
+                                        type="email" 
+                                        name="email_address" 
+                                        id="email_address" 
+                                        x-model="contactEmail"
+                                        class="block py-3 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-zinc-800 appearance-none focus:outline-none focus:ring-0 focus:border-amber-500 peer" 
+                                        placeholder=" " 
+                                        required 
+                                    />
+                                    <label 
+                                        for="email_address" 
+                                        class="peer-focus:font-medium absolute text-sm text-zinc-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-amber-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                                    >
+                                        Email Address *
+                                    </label>
+                                </div>
+
+                                <!-- Company Name -->
+                                <div class="relative z-0 w-full group">
+                                    <input 
+                                        type="text" 
+                                        name="company_name" 
+                                        id="company_name" 
+                                        x-model="companyName"
+                                        class="block py-3 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-zinc-800 appearance-none focus:outline-none focus:ring-0 focus:border-amber-500 peer" 
+                                        placeholder=" " 
+                                    />
+                                    <label 
+                                        for="company_name" 
+                                        class="peer-focus:font-medium absolute text-sm text-zinc-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-amber-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                                    >
+                                        Company Name (Optional)
+                                    </label>
+                                </div>
+
+                                <!-- Select Project Type dropdown menu style -->
+                                <div class="space-y-2">
+                                    <label class="text-xs font-mono text-zinc-500 uppercase tracking-widest">Project Type *</label>
+                                    <select 
+                                        x-model="projectType" 
+                                        class="w-full bg-zinc-950 border-b-2 border-zinc-800 focus:border-amber-500 text-zinc-100 text-sm py-3 focus:outline-none focus:ring-0"
+                                    >
+                                        <option value="Website Design">Website Design</option>
+                                        <option value="UI/UX Design">UI/UX Design</option>
+                                        <option value="Landing Page Design">Landing Page Design</option>
+                                        <option value="Dashboard Design">Dashboard Design</option>
+                                        <option value="Google Apps Script Web Applications">Google Apps Script Web Applications</option>
+                                        <option value="Website Redesign">Website Redesign</option>
+                                        <option value="Design Systems">Design Systems</option>
+                                    </select>
+                                </div>
+
+                                <!-- Project description -->
+                                <div class="relative z-0 w-full group">
+                                    <textarea 
+                                        name="project_message" 
+                                        id="project_message" 
+                                        rows="4"
+                                        x-model="contactMessage"
+                                        class="block py-3 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-zinc-800 appearance-none focus:outline-none focus:ring-0 focus:border-amber-500 peer resize-none" 
+                                        placeholder=" " 
+                                        required
+                                    ></textarea>
+                                    <label 
+                                        for="project_message" 
+                                        class="peer-focus:font-medium absolute text-sm text-zinc-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-amber-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                                    >
+                                        Describe the scope, objectives, and timeline *
+                                    </label>
+                                </div>
+
+                                <!-- Budget Tier metrics -->
+                                <div class="space-y-3">
+                                    <span class="block text-xs font-mono text-zinc-500 uppercase tracking-widest">ESTIMATED PROJECT BUDGET *</span>
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                        <label class="border border-zinc-800 hover:border-zinc-700 bg-zinc-950 p-3 rounded-lg text-center cursor-pointer flex items-center justify-center gap-2">
+                                            <input type="radio" name="budget_tier" value="Under $500" x-model="estimatedBudget" class="accent-amber-500 text-amber-500" checked>
+                                            <span class="text-xs font-mono text-zinc-300">Under $500</span>
+                                        </label>
+                                        <label class="border border-zinc-800 hover:border-zinc-700 bg-zinc-950 p-3 rounded-lg text-center cursor-pointer flex items-center justify-center gap-2">
+                                            <input type="radio" name="budget_tier" value="$500–2K" x-model="estimatedBudget" class="accent-amber-500">
+                                            <span class="text-xs font-mono text-zinc-300">$500 – $2K</span>
+                                        </label>
+                                        <label class="border border-zinc-800 hover:border-zinc-700 bg-zinc-950 p-3 rounded-lg text-center cursor-pointer flex items-center justify-center gap-2">
+                                            <input type="radio" name="budget_tier" value="$2K–5K" x-model="estimatedBudget" class="accent-amber-500">
+                                            <span class="text-xs font-mono text-zinc-300">$2K – $5K</span>
+                                        </label>
+                                        <label class="border border-zinc-800 hover:border-zinc-700 bg-zinc-950 p-3 rounded-lg text-center cursor-pointer flex items-center justify-center gap-2">
+                                            <input type="radio" name="budget_tier" value="$5K+" x-model="estimatedBudget" class="accent-amber-500">
+                                            <span class="text-xs font-mono text-zinc-300">$5K+</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Submission Submit Button -->
+                                <button 
+                                    type="submit" 
+                                    class="w-full relative group overflow-hidden bg-white hover:bg-amber-500 text-zinc-950 font-mono text-xs uppercase font-bold tracking-widest py-4 px-6 rounded-xl flex items-center justify-center gap-3 transition-colors duration-500 focus:outline-none"
+                                    :disabled="isSubmitting"
+                                >
+                                    <span x-show="!isSubmitting" class="flex items-center gap-2">
+                                        TRANSMIT TO SHEETS
+                                        <i data-lucide="send" class="w-4 h-4"></i>
+                                    </span>
+                                    <span x-show="isSubmitting" class="flex items-center gap-2">
+                                        TRANSMITTING DISPATCH...
+                                        <svg class="animate-spin h-4 w-4 text-zinc-950" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    </span>
+                                </button>
+
+                                <!-- Submission error callback message -->
+                                <div x-show="submitError" class="text-red-400 text-xs font-mono mt-2" x-transition>
+                                    Error: Please check your Google Apps Script URL configuration or network connection.
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Post-Submission Feedback Screen -->
+                        <div 
+                            x-show="formSubmitted" 
+                            class="text-center py-12 space-y-6"
+                            x-transition:enter="transition ease-out duration-500"
+                            x-transition:enter-start="opacity-0 translate-y-8"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                        >
+                            <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-full flex items-center justify-center mx-auto border border-amber-500/20 animate-pulse">
+                                <i data-lucide="check-circle" class="w-8 h-8"></i>
+                            </div>
+                            <h4 class="font-display text-2xl font-bold text-white uppercase tracking-tight">DISPATCH SECURED</h4>
+                            <p class="text-zinc-400 text-sm max-w-md mx-auto leading-relaxed">
+                                Thank you. Your custom quote parameters have been successfully logged. Aljune Quiñones will evaluate your project roadmap metrics and establish communication within 24 hours.
+                            </p>
+                            <button 
+                                @click="formSubmitted = false" 
+                                class="mt-4 border border-zinc-800 hover:border-zinc-700 bg-zinc-950 text-zinc-400 hover:text-white px-5 py-2 rounded-full text-xs font-mono tracking-wider transition-colors"
+                            >
+                                Submit Another Request
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= SECTION 6: CONTACT & FOOTER ================= -->
+        <section class="relative py-24 bg-zinc-950 border-t border-zinc-900">
+            <div class="max-w-7xl mx-auto px-6 md:px-12">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
+                    <!-- WhatsApp Coordinates -->
+                    <div class="p-6 rounded-2xl bg-zinc-900/10 border border-zinc-900 flex items-start gap-4 hover:border-zinc-800 transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0">
+                            <i data-lucide="message-square" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h5 class="font-mono text-xs text-zinc-500 uppercase tracking-widest">WhatsApp Direct</h5>
+                            <p class="text-white font-mono text-sm mt-1">+63 (099) 985-112</p>
+                            <a href="https://wa.me/63099985112" target="_blank" rel="noopener" class="text-xs text-amber-500 mt-2 block hover:underline">Open Conversation</a>
+                        </div>
+                    </div>
+
+                    <!-- Email address -->
+                    <div class="p-6 rounded-2xl bg-zinc-900/10 border border-zinc-900 flex items-start gap-4 hover:border-zinc-800 transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
+                            <i data-lucide="mail" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h5 class="font-mono text-xs text-zinc-500 uppercase tracking-widest">Direct Mailbox</h5>
+                            <p class="text-white font-mono text-sm mt-1">junaxdmly@gmail.com</p>
+                            <a href="mailto:junaxdmly@gmail.com" class="text-xs text-amber-500 mt-2 block hover:underline">Compose Message</a>
+                        </div>
+                    </div>
+
+                    <!-- Physical location coords -->
+                    <div class="p-6 rounded-2xl bg-zinc-900/10 border border-zinc-900 flex items-start gap-4 hover:border-zinc-800 transition-colors">
+                        <div class="w-10 h-10 rounded-full bg-sky-500/10 text-sky-500 flex items-center justify-center shrink-0">
+                            <i data-lucide="map-pin" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h5 class="font-mono text-xs text-zinc-500 uppercase tracking-widest">Main Location</h5>
+                            <p class="text-white text-sm mt-1">Ozamiz City, Philippines</p>
+                            <span class="text-[10px] font-mono text-zinc-500 uppercase mt-2 block">GMT+8 Standard Time</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Links & Legals -->
+                <footer class="pt-12 border-t border-zinc-900 flex flex-col lg:flex-row items-center justify-between gap-6">
+                    <!-- Branding metadata -->
+                    <div class="flex items-center gap-3">
+                        <span class="w-2.5 h-2.5 bg-amber-500 rounded-full animate-pulse"></span>
+                        <span class="font-mono text-[10px] text-zinc-500 tracking-[0.2em] uppercase">
+                            &copy; 2017 - 2026 ALJUNE.Q | ALL RIGHTS SECURED.
+                        </span>
+                    </div>
+
+                    <!-- Footer social links -->
+                    <div class="flex flex-wrap justify-center gap-6 font-mono text-[11px] text-zinc-500">
+                        <a href="https://www.facebook.com" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase">Facebook</a>
+                        <a href="https://www.linkedin.com" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase">LinkedIn</a>
+                        <a href="https://www.behance.net" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase">Behance</a>
+                        <a href="https://dribbble.com" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase">Dribbble</a>
+                        <a href="https://github.com" target="_blank" rel="noopener" class="hover:text-amber-500 transition-colors uppercase">GitHub</a>
+                    </div>
+                </footer>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Generative Generative Vector Ribbon Canvas Engine (Cinematic Morphing Curve Lines with Glow & Mouse Influence) -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('hero-starfield');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+            
+            // Smoothed Mouse coordinates
+            let mouse = { x: width / 2, y: height / 2, targetX: width / 2, targetY: height / 2 };
+
+            // Mouse track events
+            window.addEventListener('mousemove', (e) => {
+                mouse.targetX = e.clientX;
+                mouse.targetY = e.clientY;
+            });
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            // Generative Wave System (Multi-strand glowing ribbon paths)
+            let waves = [
+                {
+                    y: height * 0.45,
+                    length: 0.0012,
+                    amplitude: 110,
+                    speed: 0.005,
+                    color: '#f59e0b', // Amber Primary
+                    phase: 0,
+                    strands: 5 // Parallel offset lines to create volumetric depth
+                },
+                {
+                    y: height * 0.52,
+                    length: 0.0018,
+                    amplitude: 140,
+                    speed: 0.003,
+                    color: '#fbbf24', // Yellow Secondary
+                    phase: 2,
+                    strands: 4
+                },
+                {
+                    y: height * 0.38,
+                    length: 0.0008,
+                    amplitude: 80,
+                    speed: 0.007,
+                    color: '#ffffff', // Clean White Accent Ribbon
+                    phase: 4,
+                    strands: 3
+                }
+            ];
+
+            // Animated Render Loop
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                // Smoothly interpolate mouse positions for liquid lag effect
+                mouse.x += (mouse.targetX - mouse.x) * 0.05;
+                mouse.y += (mouse.targetY - mouse.y) * 0.05;
+
+                ctx.globalCompositeOperation = 'screen';
+
+                waves.forEach(wave => {
+                    // Loop through parallel nested strands for volumetric depth
+                    for (let s = 0; s < wave.strands; s++) {
+                        ctx.beginPath();
+                        
+                        // Dynamic strand parameters offset slightly by index
+                        const strandOffset = s * 14; 
+                        const opacity = (1 - (s / wave.strands)) * 0.28; // Higher visibility, tapered falloffs
+
+                        // Canvas line configuration
+                        ctx.strokeStyle = wave.color === '#ffffff' ? `rgba(255, 255, 255, ${opacity * 0.5})` : `rgba(245, 158, 11, ${opacity})`;
+                        ctx.lineWidth = 1.5 - (s * 0.2);
+
+                        // High-contrast glow parameters
+                        ctx.shadowBlur = wave.color === '#ffffff' ? 0 : 25 - (s * 4);
+                        ctx.shadowColor = 'rgba(245, 158, 11, 0.45)';
+
+                        for (let x = 0; x < width; x += 3) {
+                            // Sinusoidal base wave
+                            let baseWave = Math.sin(x * wave.length + wave.phase + (s * 0.15)) * wave.amplitude * Math.cos(wave.phase * 0.2);
+                            
+                            // Dynamic cursor drag calculation (waves bend organically toward mouse pointer)
+                            const distanceToMouse = Math.abs(x - mouse.x);
+                            let mouseInfluence = 0;
+                            if (distanceToMouse < 300) {
+                                // Create soft bell-curve proximity factor
+                                const strength = (1 - distanceToMouse / 300);
+                                mouseInfluence = (mouse.y - wave.y) * strength * 0.45;
+                            }
+
+                            // Final plot point
+                            const yVal = wave.y + baseWave + mouseInfluence + strandOffset;
+                            
+                            if (x === 0) {
+                                ctx.moveTo(x, yVal);
+                            } else {
+                                ctx.lineTo(x, yVal);
+                            }
+                        }
+                        
+                        ctx.stroke();
+                    }
+                    
+                    // Progress oscillation timeline phase
+                    wave.phase += wave.speed;
+                });
+
+                // Reset shadow values for performance sanitization on other canvas drawing operations
+                ctx.shadowBlur = 0;
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            // Initialize Lucide Icons for vector render reliability
+            lucide.createIcons();
         });
-
-        modalLink.href = data.link;
-
-        modal.classList.add('active');
-        document.body.classList.add('loading');
-      });
-    });
-
-    function closeModal() {
-      modal.classList.remove('active');
-      document.body.classList.remove('loading');
-    }
-
-    modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', e => {
-      if (e.target === modal) {
-        closeModal();
-      }
-    });
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        closeModal();
-      }
-    });
-
-    /* ─── NAVBAR SCROLL ───────────────── */
-    window.addEventListener('scroll', () => {
-      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
-    });
-
-    /* ─── REVEAL ON SCROLL ────────────── */
-    const revealEls = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => observer.observe(el));
-
-    /* ─── FILTER BUTTONS ──────────────── */
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-    });
-
-    /* ─── FORM SUBMIT ─────────────────── */
-    function handleSubmit(e) {
-      e.preventDefault();
-      const btn = e.target.querySelector('.btn-submit');
-      btn.textContent = 'Message Sent ✓';
-      btn.style.background = 'var(--accent2)';
-      btn.style.boxShadow = '0 8px 30px rgba(143,166,142,.3)';
-      setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; btn.style.boxShadow = ''; }, 3500);
-    }
-
-    /* ─── SMOOTH ANCHOR CLICKS ────────── */
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
-      });
-    });
-  </script>
+    </script>
 </body>
-
 </html>
